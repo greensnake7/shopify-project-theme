@@ -72,5 +72,45 @@
       "subtitle": "Subtitle",
       "normal": "Normal text"
     },
+  },
+  "settings_schema": {
+    "typography": {
+      "name": "Typography",
+      "base_size": "Base size",
+      "letter_spacing": "Letter spacing",
+      "text_tranform": "Text transform",
+      "capitalize": "Capitalize",
+      "uppercase": "Uppercase",
+      "lowercase": "Lowercase",
+      "type_menu_font": "Menu font",
+      "type_button_font": "Button font",
+      "heading_highlight_font": "Highlight font",
+      "heading_highlight_size": "Highlight size",
+      "heading_highlight_font_info": "Heading highlight size is calculated based on the percentage of the Heading base size above.",
+      "settings": {
+        "type_header_font": {
+          "label": "Font"
+        },
+        "header__1": {
+          "content": "Headings"
+        },
+        "header__2": {
+          "content": "Body"
+        },
+        "body_scale": {
+          "label": "Font size scale"
+        },
+        "heading_highlight_type": {
+          "label": "Marker",
+          "info": "Wrap your text between [] to add heading highlights. E.g: Adding [marker] will underline [highlight] text.",
+          "option__1": {
+            "label": "Underline"
+          },
+          "option__3": {
+            "label": "Font highlight"
+          }
+        }
+      }
+    },
   }
 }

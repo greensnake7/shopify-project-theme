@@ -6,13 +6,80 @@
   {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
   :root {
-    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
-    --font-primary--style: {{ settings.type_primary_font.style }};
-    --font-primary--weight: {{ settings.type_primary_font.weight }};
+    --base-font-size: {{ settings.text_base_size | times: 0.00875 }}rem;
+    --font-size-medium-mobile: {{ settings.text_base_size | times: 0.009 }}rem;
+    --font-size-medium: {{ settings.text_base_size | times: 0.01 }}rem;
+    --font-size-small: {{ settings.text_base_size | times: 0.00625 }}rem;
+    --font-size-small-mobile: {{ settings.text_base_size | times: 0.005625 }}rem;
+    --font-size-normal: {{ settings.text_base_size | times: 0.0075 }}rem;
+    --font-size-normal-mobile: {{ settings.text_base_size | times: 0.00675 }}rem;
+    --font-size-large: {{ settings.text_base_size | times: 0.0125 }}rem;
+    --font-size-large-mobile: {{ settings.text_base_size | times: 0.01125 }}rem;
+    --heading-highlight-font-size: {{ settings.heading_highlight_base_size }}%;
+    --h1-font-size: {{ settings.heading_base_size | times: 0.03825 }}rem;
+    --h2-font-size: {{ settings.heading_base_size | times: 0.0225 }}rem;
+    --h3-font-size: {{ settings.heading_base_size | times: 0.0135 }}rem;
+    --h4-font-size: {{ settings.heading_base_size | times: 0.012375 }}rem;
+    --h5-font-size: {{ settings.heading_base_size | times: 0.01125 }}rem;
+    --h6-font-size: {{ settings.heading_base_size | times: 0.010125 }}rem;
+    --base-font-size-mobile: {{ settings.text_base_size | times: 0.007875 }}rem;
+    --h1-font-size-mobile: {{ settings.heading_base_size | times: 0.019125 }}rem;
+    --h2-font-size-mobile: {{ settings.heading_base_size | times: 0.0135 }}rem;
+    --h3-font-size-mobile: {{ settings.heading_base_size | times: 0.00945 }}rem;
+    --h4-font-size-mobile: {{ settings.heading_base_size | times: 0.0086625 }}rem;
+    --h5-font-size-mobile: {{ settings.heading_base_size | times: 0.007875 }}rem;
+    --h6-font-size-mobile: {{ settings.heading_base_size | times: 0.0070875 }}rem;
+    --body-letter-spacing: {{ settings.text_letter_spacing | times: 0.01 }}em;
+    --heading-letter-spacing: {{ settings.heading_letter_spacing | times: 0.01 }}em;
+    --heading-highlight-letter-spacing: {{ settings.heading_highlight_letter_spacing | times: 0.01 }}em;
+    --menu-letter-spacing: {{ settings.menu_letter_spacing | times: 0.01 }}em;
+    --button-letter-spacing: {{ settings.button_letter_spacing | times: 0.01 }}em;
+    --rating-star-size: {{ settings.text_base_size | times: 0.007 }}rem;
+    --border-radius: {{ border_radius }};
+    --page-width: {{ settings.page_width }}px;
+    --width-countdown: {{ settings.text_base_size | times: 0.07875 }}rem;
+    --font-menu: {{ settings.type_menu_font.family }}, {{ settings.type_menu_font.fallback_families }};
+    --font-menu-weight: {{ settings.type_menu_font.weight }};
+    --font-menu-style: {{ settings.type_menu_font.style }};
+    --font-button: {{ settings.type_button_font.family }}, {{ settings.type_button_font.fallback_families }};
+    --font-button-weight: {{ settings.type_button_font.weight }};
+    --font-button-style: {{ settings.type_button_font.style }};
+    --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-body-style: {{ settings.type_body_font.style }};
+    --font-body-weight: {{ settings.type_body_font.weight }};
+    --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+    --font-heading-highlight: {{ settings.heading_highlight_font.family }}, {{ settings.heading_highlight_font.fallback_families }};
+    --font-heading-highlight-style: {{ settings.heading_highlight_font.style }};
+    --font-heading-highlight-weight: {{ settings.heading_highlight_font.weight }};
+    --font-heading-style: {{ settings.type_header_font.style }};
+    --font-heading-weight: {{ settings.type_header_font.weight }};
+    --heading-text-tranform: {{ settings.heading_text_tranform }};
+    --menu-text-tranform: {{ settings.menu_text_tranform }};
+    --button-text-tranform: {{ settings.button_text_tranform }};
+    --advanced-sections-spacing: {{ settings.advanced_sections_spacing }}px;
+    --divider-spacing: -{{ settings.advanced_sections_spacing }};
+
     --page-width: {{ settings.max_page_width }};
     --page-margin: {{ settings.min_page_margin }}px;
-    --color-background: {{ settings.background_color }};
-    --color-foreground: {{ settings.foreground_color }};
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    {% for scheme in settings.scheme_group %}
+      .color-{{ scheme.id }} {
+        --color-heading: {{ scheme.settings.heading_color }};
+        --color-foreground: {{ scheme.settings.text_color }};
+        --color-background: {{ scheme.settings.background_color }};
+        --color-background-secondary: {{ scheme.settings.secondary_background_color }};
+        --color-border: {{ scheme.settings.line_and_border_color }};
+        --color-highlight: {{ scheme.settings.highlight_color }};
+
+        --color-primary-button: {{ scheme.settings.primary_button_color }};
+        --color-primary-button-text: {{ scheme.settings.primary_button_text_color }};
+        --color-primary-button-hover: {{ scheme.settings.primary_button_hover_color }};
+        --color-primary-button-hover-text: {{ scheme.settings.primary_button_hover_text_color }};
+
+        --color-secondary-button: {{ scheme.settings.secondary_button_color }};
+        --color-secondary-button-text: {{ scheme.settings.secondary_button_text_color }};
+        --color-link: {{ scheme.settings.text_link_color }};
+      }
+    {% endfor %}
   }
 {% endstyle %}
