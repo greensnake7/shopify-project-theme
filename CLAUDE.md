@@ -1,0 +1,1 @@
+/home/bss-group/shopify-project-theme/x-theme/AGENTS.md
