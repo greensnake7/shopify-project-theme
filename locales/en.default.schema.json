@@ -112,5 +112,42 @@
         }
       }
     },
+    "design": {
+      "name": "Design",
+      "edges": "Edges",
+      "popup": {
+        "position_minimal": {
+          "label": "Minimal popup position"
+        },
+        "show_overlay": "Show popup overlay"
+      },
+      "layout": {
+        "sections_spacing": "Sections spacing",
+        "page_width": "Page width"
+      },
+      "scrollbar": {
+        "header": "Scroll bar",
+        "width": {
+          "label": "Main scroll bar width",
+          "default_browser": "Use default browser bar",
+          "thin": "Thin",
+          "very_thin": "Very thin",
+          "very_large": "Very large"
+        }
+      },
+      "carousel": {
+        "adapt": "Adapt to theme settings",
+        "desktop_pagination_style": {
+          "label": "Desktop pagination style",
+          "option_1": "None",
+          "option_2": "Line",
+          "option_3": "Dots"
+        },
+        "mobile_pagination_style": {
+          "label": "Mobile pagination style",
+          "option_1": "Arrows"
+        }
+      }
+    }
   }
 }

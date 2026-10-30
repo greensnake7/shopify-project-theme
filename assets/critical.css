@@ -72,12 +72,29 @@ p:empty {
 }
 
 /** Theme styles below */
-body {
-  font-family: var(--font-primary--family);
-  background-color: var(--color-background);
-  color: var(--color-foreground);
+body{
+  line-height:1.375;
+  font-family: var(--font-body-family);
+  font-style: var(--font-body-style);
+  font-weight: var(--font-body-weight);
+  letter-spacing: var(--body-letter-spacing);
+  background: rgba(var(--color-background));
+  color: rgb(var(--color-text))
+}
+.font-heading{
+  font-family:var(--font-heading-family)
 }
 
+.page-width {
+  max-width: calc(var(--page-width) + 40px);
+  margin-right:auto;
+  margin-left:auto;
+  padding-right:1.25rem;
+  padding-left:1.25rem;
+}
+.page-width-mobile{margin-right:auto;margin-left:auto;padding-right:1.25rem;padding-left:1.25rem}
+.carousel-mobile.page-width-mobile{padding-left:0px;padding-right:0px}
+.full-width{padding-left:1.25rem;padding-right:1.25rem}
 /** Section layout utilities */
 
 /**
@@ -92,18 +109,8 @@ body {
  * the entire viewport.
  */
 .shopify-section {
-  --content-width: min(
-    calc(var(--page-width) - var(--page-margin) * 2),
-    calc(100% - var(--page-margin) * 2)
-  );
-  --content-margin: minmax(var(--page-margin), 1fr);
-  --content-grid: var(--content-margin) var(--content-width) var(--content-margin);
-
-  /* This is required to make <img> elements work as background images */
-  position: relative;
-  grid-template-columns: var(--content-grid);
-  display: grid;
-  width: 100%;
+  margin-top: var(--advanced-sections-spacing);
+  margin-bottom: var(--advanced-sections-spacing);
 }
 
 /* Child elements, by default, are constrained to the central column of the grid. */
@@ -114,4 +121,85 @@ body {
 /* Child elements that use the full-width utility class span the entire viewport. */
 .shopify-section > .full-width {
   grid-column: 1 / -1;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  text-transform: var(--heading-text-tranform);
+  font-family: var(--font-heading-family);
+  font-style: var(--font-heading-style);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: var(--heading-letter-spacing);
+  color: rgba(var(--color-heading));
+  overflow-wrap:break-word;
+  line-height:1.25;
+}
+h1, .h1 {
+  font-size: var(--h1-font-size-mobile);
+}
+h2, .h2 {
+  font-size: var(--h2-font-size-mobile);
+}
+h3, .h3 {
+  font-size: var(--h3-font-size-mobile);
+}
+h4, .h4 {
+  font-size: var(--h4-font-size-mobile);
+}
+h5, .h5 {
+  font-size: var(--h5-font-size-mobile);
+}
+h6, .h6 {
+  font-size: var(--h6-font-size-mobile);
+}
+.text-default{
+  font-size: var(--base-font-size-mobile);
+}
+.text-small{
+  font-size: var(--font-size-small-mobile);
+}
+.text-medium{
+  font-size: var(--font-size-medium-mobile);
+}
+.text-normal{
+  font-size: var(--font-size-normal-mobile);
+}
+.text-large{
+  font-size: var(--font-size-large-mobile);
+}
+
+
+@media (min-width: 1024px) {
+  h1, .h1 {
+    font-size: var(--h1-font-size);
+  }
+  h2, .h2 {
+    font-size: var(--h2-font-size);
+  }
+  h3, .h3 {
+    font-size: var(--h3-font-size);
+  }
+  h4, .h4 {
+    font-size: var(--h4-font-size);
+  }
+  h5, .h5 {
+    font-size: var(--h5-font-size);
+  }
+  h6, .h6 {
+    font-size: var(--h6-font-size);
+  }
+  .text-default{
+    font-size: var(--base-font-size);
+  }
+  .text-small{
+    font-size: var(--font-size-small);
+  }
+  .text-medium{
+    font-size: var(--font-size-medium);
+  }
+  .text-normal{
+    font-size: var(--font-size-normal);
+  }
+  .text-large{
+    font-size: var(--font-size-large);
+  }
 }

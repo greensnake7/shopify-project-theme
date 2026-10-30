@@ -10,7 +10,7 @@
 {
   "current": {
     "scheme_group": {
-      "scheme-1": {
+      "scheme_1": {
         "settings": {
           "heading_color": "#1B1B1B",
           "text_color": "#323232",
@@ -26,7 +26,24 @@
           "secondary_button_text_color": "#202020",
           "text_link_color": "#B8581D"
         }
-      }
+      },
+      "scheme_2": {
+        "settings": {
+          "heading_color": "#FFFFFF",
+          "text_color": "#DEDBD5",
+          "line_and_border_color": "#333333",
+          "highlight_color": "#E48A52",
+          "background_color": "#121212",
+          "secondary_background_color": "#21201C",
+          "primary_button_color": "#FFFFFF",
+          "primary_button_text_color": "#121212",
+          "primary_button_hover_color": "#E5905B",
+          "primary_button_hover_text_color": "#121212",
+          "secondary_button_color": "rgba(0,0,0,0)",
+          "secondary_button_text_color": "#FFFFFF",
+          "text_link_color": "#E48A52"
+        }
+      },
     }
   }
 }

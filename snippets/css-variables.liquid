@@ -1,3 +1,20 @@
+{%- liquid
+  case settings.buttons_type
+    when 'rounded'
+      assign border_radius = '100px'
+    when 'rounded_corners'
+      assign border_radius = '6px'
+    else
+      assign border_radius = '0'
+  endcase
+  case settings.edges_type
+    when 'rounded_corners'
+      assign edges_radius = '6px'
+    else
+      assign edges_radius = '0'
+  endcase
+%}
+
 {% style %}
   {% # Loads all font variantions with display: swap %}
   {{ settings.type_primary_font | font_face: font_display: 'swap' }}
@@ -36,6 +53,7 @@
     --button-letter-spacing: {{ settings.button_letter_spacing | times: 0.01 }}em;
     --rating-star-size: {{ settings.text_base_size | times: 0.007 }}rem;
     --border-radius: {{ border_radius }};
+    --edges-radius: {{ edges_radius }};
     --page-width: {{ settings.page_width }}px;
     --width-countdown: {{ settings.text_base_size | times: 0.07875 }}rem;
     --font-menu: {{ settings.type_menu_font.family }}, {{ settings.type_menu_font.fallback_families }};
@@ -58,28 +76,24 @@
     --button-text-tranform: {{ settings.button_text_tranform }};
     --advanced-sections-spacing: {{ settings.advanced_sections_spacing }}px;
     --divider-spacing: -{{ settings.advanced_sections_spacing }};
-
-    --page-width: {{ settings.max_page_width }};
-    --page-margin: {{ settings.min_page_margin }}px;
-    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
-    {% for scheme in settings.scheme_group %}
-      .color-{{ scheme.id }} {
-        --color-heading: {{ scheme.settings.heading_color }};
-        --color-foreground: {{ scheme.settings.text_color }};
-        --color-background: {{ scheme.settings.background_color }};
-        --color-background-secondary: {{ scheme.settings.secondary_background_color }};
-        --color-border: {{ scheme.settings.line_and_border_color }};
-        --color-highlight: {{ scheme.settings.highlight_color }};
-
-        --color-primary-button: {{ scheme.settings.primary_button_color }};
-        --color-primary-button-text: {{ scheme.settings.primary_button_text_color }};
-        --color-primary-button-hover: {{ scheme.settings.primary_button_hover_color }};
-        --color-primary-button-hover-text: {{ scheme.settings.primary_button_hover_text_color }};
-
-        --color-secondary-button: {{ scheme.settings.secondary_button_color }};
-        --color-secondary-button-text: {{ scheme.settings.secondary_button_text_color }};
-        --color-link: {{ scheme.settings.text_link_color }};
-      }
-    {% endfor %}
   }
+  {% for scheme in settings.scheme_group %}
+    .color-{{ scheme.id }} {
+      --color-heading: {{ scheme.settings.heading_color }};
+      --color-text: {{ scheme.settings.text_color }};
+      --color-background: {{ scheme.settings.background_color }};
+      --color-background-secondary: {{ scheme.settings.secondary_background_color }};
+      --color-border: {{ scheme.settings.line_and_border_color }};
+      --color-highlight: {{ scheme.settings.highlight_color }};
+
+      --color-primary-button: {{ scheme.settings.primary_button_color }};
+      --color-primary-button-text: {{ scheme.settings.primary_button_text_color }};
+      --color-primary-button-hover: {{ scheme.settings.primary_button_hover_color }};
+      --color-primary-button-hover-text: {{ scheme.settings.primary_button_hover_text_color }};
+
+      --color-secondary-button: {{ scheme.settings.secondary_button_color }};
+      --color-secondary-button-text: {{ scheme.settings.secondary_button_text_color }};
+      --color-link: {{ scheme.settings.text_link_color }};
+    }
+  {% endfor %}
 {% endstyle %}

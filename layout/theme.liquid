@@ -1,9 +1,28 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}">
+<html class="no-js {% if settings.theme_mode_default == "dark" and settings.theme_mode_enabled %} dark{% endif %}" lang="{{ request.locale.iso_code }}">
   <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
     {% # Inlined CSS Variables %}
-    {% render 'css-variables' %}
+    {% liquid
+      render 'css-variables' 
+    %}
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+    {%- if settings.theme_mode_enabled -%}
+      <script>
+        const themeMode = '{{ settings.theme_mode_mode | default: 'auto' }}';
+        if ((localStorage.eurus_theme == 1 && themeMode == 'switch')
+          || (themeMode == 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          requestAnimationFrame(() => {
+            document.documentElement.classList.add('dark');
+          });
+        } else if ((localStorage.eurus_theme == 0 && themeMode == 'switch')
+          || (themeMode == 'auto' && window.matchMedia('(prefers-color-scheme: light)').matches)) {
+          requestAnimationFrame(() => {
+            document.documentElement.classList.remove('dark');
+          });
+        }
+      </script>
+    {%- endif -%}
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
@@ -14,13 +33,35 @@
     {{ content_for_header }}
   </head>
 
-  <body>
+  <body class="color-{{ colo }}">
+    {%- if settings.page_transition -%}
+      <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+          const transitionEl = document.getElementById('x-page-transition');
+          transitionEl.style.opacity = '0';
+          setTimeout(() => {
+            transitionEl.remove();
+          }, 1000); 
+        });
+      </script>
+      <div id="x-page-transition" class="transition-all ease-in-out duration-1000 opacity-100 fixed top-0 left-0 w-full h-full bg-black z-[9999]"></div>
+    {%- endif -%}
     {% sections 'header-group' %}
 
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js" defer ></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.9/dist/cdn.min.js" defer ></script>
+    <script>
+      window.XTheme = {
+        loadedScript: new Set(),
+        cart_add_url: '{{ routes.cart_add_url }}'
+      };
+    </script>
+    {% if settings.theme_mode_enabled %}
+      <script src="{{ 'dark-mode.js' | asset_url }}" defer></script>
+    {% endif %}
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <script src="{{ 'vendors.js' | asset_url }}" defer>
+    </script>
   </body>
 </html>
