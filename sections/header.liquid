@@ -1,3 +1,5 @@
+{% liquid
+%}
 <header class="page-width">
   <h2 class="header__title">
     {{ shop.name | link_to: routes.root_url }}
@@ -22,6 +24,7 @@
       {{ 'icon-cart.svg' | inline_asset_content }}
     </a>
   </div>
+  {% render 'header-search-item' %}
   {%- if settings.theme_mode_enabled -%}
     {%- if settings.theme_mode_mode == 'switch' -%}
       <theme-mode x-data
@@ -31,6 +34,9 @@
           @click.prevent="$store.xDarkMode.toggleThemeMode()"
           class="{% if settings.icon_options == 'classic' %}md:pt-2.5 md:pb-2.5 md:pl-2.5 md:pr-2.5 button button-action pt-2.5 pb-2.5 pl-2.5 pr-2.5 rounded-full {% else %} md:pt-0 pb-0 lg:pl-7 rtl:lg:pl-0 rtl:lg:pr-7 {% endif %} text-sm {% if settings.icon_options == "modern" %}{% if section.settings.mobile_header_layout == 'left-right' %}mr-4 md:mr-0{% elsif section.settings.mobile_header_layout == 'center-right' %}pr-3{% else %}pl-3{% endif %}{% endif %}"
         >
+          <span class="block {% if settings.icon_options == 'classic' %} w-4 lg:w-5{% else %} w-6{% endif %}" x-show="$store.xDOM.rePainting === $store.xDarkMode.alias" x-cloak>
+            {% render 'icon-alls', icon: 'icon-loading' %}
+          </span>
           <span class="hidden dark:block{% if settings.icon_options == 'classic' %} w-4 lg:w-5{% else %} w-6{% endif %}" x-show="$store.xDOM.rePainting !== $store.xDarkMode.alias">
             {% if settings.icon_options == 'classic' %}
               <svg
@@ -94,7 +100,7 @@
     gap: 1rem;
   }
 {% endstylesheet %}
-
+<script src="{{ 'search-prompts.js' | asset_url }}" defer></script>
 {% schema %}
 {
   "name": "t:general.header",

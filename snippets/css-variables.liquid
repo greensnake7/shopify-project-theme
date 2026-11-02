@@ -13,16 +13,13 @@
     else
       assign edges_radius = '0'
   endcase
+  assign scheme = settings.color_scheme
+  assign scheme_dark = settings.color_scheme_dark
 %}
 
 {% style %}
-  {% # Loads all font variantions with display: swap %}
-  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-
-  :root {
+  :root,
+  *:before {
     --base-font-size: {{ settings.text_base_size | times: 0.00875 }}rem;
     --font-size-medium-mobile: {{ settings.text_base_size | times: 0.009 }}rem;
     --font-size-medium: {{ settings.text_base_size | times: 0.01 }}rem;
@@ -76,24 +73,39 @@
     --button-text-tranform: {{ settings.button_text_tranform }};
     --advanced-sections-spacing: {{ settings.advanced_sections_spacing }}px;
     --divider-spacing: -{{ settings.advanced_sections_spacing }};
+
+    --color-heading: {{ scheme.settings.heading_color }};
+    --color-text: {{ scheme.settings.text_color }};
+    --color-background: {{ scheme.settings.background_color }};
+    --color-background-secondary: {{ scheme.settings.secondary_background_color }};
+    --color-border: {{ scheme.settings.line_and_border_color }};
+    --color-highlight: {{ scheme.settings.highlight_color }};
+
+    --color-primary-button: {{ scheme.settings.primary_button_color }};
+    --color-primary-button-text: {{ scheme.settings.primary_button_text_color }};
+    --color-primary-button-hover: {{ scheme.settings.primary_button_hover_color }};
+    --color-primary-button-hover-text: {{ scheme.settings.primary_button_hover_text_color }};
+
+    --color-secondary-button: {{ scheme.settings.secondary_button_color }};
+    --color-secondary-button-text: {{ scheme.settings.secondary_button_text_color }};
+    --color-link: {{ scheme.settings.text_link_color }};
   }
-  {% for scheme in settings.scheme_group %}
-    .color-{{ scheme.id }} {
-      --color-heading: {{ scheme.settings.heading_color }};
-      --color-text: {{ scheme.settings.text_color }};
-      --color-background: {{ scheme.settings.background_color }};
-      --color-background-secondary: {{ scheme.settings.secondary_background_color }};
-      --color-border: {{ scheme.settings.line_and_border_color }};
-      --color-highlight: {{ scheme.settings.highlight_color }};
+  .dark,
+  .dark *:before {
+    --color-heading: {{ scheme_dark.settings.heading_color }};
+    --color-text: {{ scheme_dark.settings.text_color }};
+    --color-background: {{ scheme_dark.settings.background_color }};
+    --color-background-secondary: {{ scheme_dark.settings.secondary_background_color }};
+    --color-border: {{ scheme_dark.settings.line_and_border_color }};
+    --color-highlight: {{ scheme_dark.settings.highlight_color }};
 
-      --color-primary-button: {{ scheme.settings.primary_button_color }};
-      --color-primary-button-text: {{ scheme.settings.primary_button_text_color }};
-      --color-primary-button-hover: {{ scheme.settings.primary_button_hover_color }};
-      --color-primary-button-hover-text: {{ scheme.settings.primary_button_hover_text_color }};
+    --color-primary-button: {{ scheme_dark.settings.primary_button_color }};
+    --color-primary-button-text: {{ scheme_dark.settings.primary_button_text_color }};
+    --color-primary-button-hover: {{ scheme_dark.settings.primary_button_hover_color }};
+    --color-primary-button-hover-text: {{ scheme_dark.settings.primary_button_hover_text_color }};
 
-      --color-secondary-button: {{ scheme.settings.secondary_button_color }};
-      --color-secondary-button-text: {{ scheme.settings.secondary_button_text_color }};
-      --color-link: {{ scheme.settings.text_link_color }};
-    }
-  {% endfor %}
+    --color-secondary-button: {{ scheme_dark.settings.secondary_button_color }};
+    --color-secondary-button-text: {{ scheme_dark.settings.secondary_button_text_color }};
+    --color-link: {{ scheme_dark.settings.text_link_color }};
+  }
 {% endstyle %}

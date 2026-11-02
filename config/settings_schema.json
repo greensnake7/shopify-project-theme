@@ -880,4 +880,75 @@
       }
     ]
   },
+  {
+    "name": "Product",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product cards"
+      },
+      {
+        "type": "range",
+        "id": "title_size_pc",
+        "default": 100,
+        "min": 50,
+        "max": 200,
+        "step": 10,
+        "label": "Title size"
+      },
+      {
+        "type": "range",
+        "id": "price_size_pc",
+        "default": 100,
+        "min": 50,
+        "max": 200,
+        "step": 10,
+        "label": "Price size"
+      },
+      {
+        "type": "select",
+        "id": "image_ratio_pc",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard (3:4)"
+          },
+          {
+            "value": "square",
+            "label": "Square (1:1)"
+          },
+          {
+            "value": "portrait",
+            "label": "Portrait (2:3)"
+          },
+          {
+            "value": "landscape",
+            "label": "Landscape (4:3)"
+          },
+          {
+            "value": "cinematic",
+            "label": "Cinematic (21:9)"
+          }
+        ],
+        "default": "standard",
+        "label": "Image ratio"
+      },
+      {
+        "type": "header",
+        "content": "Product price"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_price_range",
+        "default": false,
+        "label": "Enable price range"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_currency_codes",
+        "default": false,
+        "label": "Show currency codes"
+      }
+    ]
+  }
 ]

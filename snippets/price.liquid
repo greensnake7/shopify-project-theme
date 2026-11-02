@@ -1,0 +1,89 @@
+{%- liquid
+  assign target = product
+  assign enable_price_range = false
+  if product.has_only_default_variant or use_variant and product.selected_variant or settings.default_select_available_variant
+    if variant
+      assign target = variant
+    else
+      assign target = product.selected_or_first_available_variant
+    endif
+  else
+    unless container contains 'main-product-price' or mini_card
+      if settings.enable_price_range and product.price_varies
+        assign enable_price_range = true
+      endif
+    endunless
+  endif
+
+  assign compare_at_price = target.compare_at_price
+  assign price = target.price | default: 1999
+  if settings.currency_code_enable
+    assign money_price = price | money_with_currency
+  else
+    assign money_price = price | money
+  endif
+
+  if product.price_varies and target == product
+    assign money_price = 'From' | append: money_price
+  endif
+
+  assign price_element_id = price_id
+  if price_element_id == blank
+    assign price_element_id = 'price-' | append: section.id | append: '-' | append: product.id
+  endif
+-%}
+<div class="{{ container }} price leading-none{% if enable_price_range %} flex{% endif %} {{ price_class }}">
+  <div class="target-price hidden">{{ price }}</div>
+  <div class="target-compare-at-price hidden">{{ compare_at_price }}</div>
+  {% if show_price_range %}
+    {% if target == product %}
+      {% if enable_price_range %}
+        {% capture price_detail_button %}
+          <div
+            id="price-range-{{ priceID }}"
+            class="price-range price leading-none flex-wrap pl-2 border-l border-solid inline-flex items-center gap-[3px] ml-1"
+            aria-hidden="true"
+            tabindex="-1"
+            style="text-align: unset;"
+          >
+            <span class="break-all">{{ min_price }} - {{ max_price }}</span>
+          </div>
+        {% endcapture %}
+      {% endif %}
+    {% endif %}
+  {% endif %}
+  {% unless show_custom %}
+    {%- if compare_at_price > price %}
+      {%- if hide_sale_price %}
+        <p
+          id="{{ price_element_id }}"
+          class="price inline-block"
+        >
+          {{ money_price }}
+        </p>
+      {%- else -%}
+        <s class="cap price-compare text-[80%]">
+          {%- if settings.currency_code_enable -%}
+            {{- compare_at_price | money_with_currency -}}
+          {%- else -%}
+            {{- compare_at_price | money -}}
+          {%- endif -%}
+        </s>
+        <span
+          id="{{ price_element_id }}"
+          class="price-sale selection:bg-text-[rgb(var(--colors-price-sale),0.2)] ml-1"
+        >
+          {{- money_price -}}
+        </span>
+      {%- endif -%}
+    {%- else -%}
+      <p
+        id="{{ price_element_id }}"
+        class="price inline-block"
+      >
+        {{ money_price }}
+      </p>
+    {%- endif -%}
+  {% endunless %}
+</div>
+{{ price_detail_button }}
