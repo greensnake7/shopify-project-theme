@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@source "../sections";
+@source "../snippets";
+@source "../templates";
+@source "../layout";
+@source "../assets";

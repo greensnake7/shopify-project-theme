@@ -1,9 +1,13 @@
-/** Critical CSS for the theme. This file is included on every page. */
 
-/* Reset styles inspired by https://www.joshwcomeau.com/css/custom-css-reset/ */
 * {
   box-sizing: border-box;
   margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  border-color: var(--color-border);
 }
 
 body {
@@ -23,8 +27,6 @@ video,
 canvas,
 svg {
   display: block;
-  max-width: 100%;
-  height: auto;
 }
 
 input,
@@ -203,3 +205,11 @@ h6, .h6 {
     font-size: var(--font-size-large);
   }
 }
+.icon-animation{
+  will-change: transform;
+  transition: transform 250ms ease;
+}
+.icon-animation:hover {
+  transform: scale(1.07);
+}
+[x-cloak] { display: none !important; }

@@ -638,11 +638,11 @@
         "label": "Position on mobile",
         "options": [
           {
-            "label": "t:sections.header.name",
+            "label": "Header",
             "value": "header"
           },
           {
-            "label": "t:sections.mobile-navigation.name",
+            "label": "Mobile navigation",
             "value": "navigation"
           }
         ],
@@ -653,53 +653,89 @@
         "type": "checkbox",
         "id": "search_refined",
         "default": false,
-        "label": "t:settings_schema.search_navigation.search_refined"
+        "label": "Enable refined search box",
       },
       {
         "type": "select",
-        "id": "search_type",
+        "id": "search_style",
         "options": [
           {
-            "value": "product",
-            "label": "t:settings_schema.search_navigation.products_only"
+            "value": "vertical",
+            "label": "Vertical"
           },
           {
-            "value": "product,collection",
-            "label": "t:settings_schema.search_navigation.products_collection"
-          },
-          {
-            "value": "product,page,article",
-            "label": "t:settings_schema.search_navigation.products_page_article"
-          },
-          {
-            "value": "product,page",
-            "label": "t:settings_schema.search_navigation.products_page"
-          },
-          {
-            "value": "product,page,collection,article",
-            "label": "t:settings_schema.search_navigation.all"
+            "value": "horizontal",
+            "label": "Horizontal"
           }
         ],
-        "default": "product",
-        "label": "t:sections.main-search.name"
+        "default": "vertical",
+        "label": "Desktop layout"
+      },
+      {
+        "type": "header",
+        "content": "Search results"
       },
       {
         "type": "checkbox",
         "id": "predictive_search_enabled",
         "default": true,
-        "label": "t:settings_schema.search_navigation.settings.predictive_search_enabled.label"
+        "label": "Enable product suggestions"
       },
       {
         "type": "checkbox",
-        "id": "predictive_search_show_vendor",
-        "default": false,
-        "label": "t:settings_schema.search_navigation.settings.predictive_search_show_vendor.label"
+        "id": "show_products",
+        "default": true,
+        "label": "Show products",
+        "visible_if": "{{ settings.predictive_search_enabled }}"
       },
       {
         "type": "checkbox",
-        "id": "predictive_search_show_price",
-        "default": false,
-        "label": "t:settings_schema.search_navigation.settings.predictive_search_show_price.label"
+        "id": "show_collections",
+        "default": true,
+        "label": "Show collections",
+        "visible_if": "{{ settings.predictive_search_enabled }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_pages",
+        "default": true,
+        "label": "Show pages",
+        "visible_if": "{{ settings.predictive_search_enabled }}"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_articles",
+        "default": true,
+        "label": "Show articles",
+        "visible_if": "{{ settings.predictive_search_enabled }}"
+      },
+      {
+        "type": "select",
+        "id": "image_ratio_search",
+        "options": [
+          {
+            "value": "standard",
+            "label": "Standard (3:4)"
+          },
+          {
+            "value": "square",
+            "label": "Square (1:1)"
+          },
+          {
+            "value": "portrait",
+            "label": "Portrait (2:3)"
+          },
+          {
+            "value": "landscape",
+            "label": "Landscape (4:3)"
+          },
+          {
+            "value": "wide",
+            "label": "Wide (16:9)"
+          }
+        ],
+        "default": "standard",
+        "label": "Image ratio"
       },
       {
         "type": "range",
@@ -707,7 +743,7 @@
         "min": 1,
         "max": 10,
         "step": 1,
-        "label": "t:settings_schema.search_navigation.search_desktop_maximun_results",
+        "label": "Desktop maximum results",
         "default": 10
       },
       {
@@ -716,126 +752,62 @@
         "min": 1,
         "max": 6,
         "step": 1,
-        "label": "t:settings_schema.search_navigation.search_mobile_maximun_results",
+        "label": "Mobile maximum results",
         "default": 6
       },
       {
         "type": "checkbox",
         "id": "search_show_view_more",
         "default": false,
-        "label": "t:settings_schema.search_navigation.search_show_view_more"
-      },
-      {
-        "type": "collection",
-        "id": "popular_product_search",
-        "label": "t:settings_schema.search_navigation.popular_product_search"
-      },
-      {
-        "type": "link_list",
-        "id": "search_recomendation",
-        "label": "t:settings_schema.search_navigation.search_recomendation"
-      },
-      {
-        "type": "range",
-        "id": "product_limit",
-        "min": 1,
-        "max": 6,
-        "step": 1,
-        "default": 6,
-        "label": "t:settings_schema.search_navigation.product_limit"
-      },
-      {
-        "type": "select",
-        "id": "search_style",
-        "options": [
-          {
-            "value": "vertical",
-            "label": "t:sections.collage.name"
-          },
-          {
-            "value": "horizontal",
-            "label": "t:settings_schema.search_navigation.settings.search_style.options__2"
-          }
-        ],
-        "default": "vertical",
-        "label": "t:settings_schema.search_navigation.search_style"
+        "label": "Show \"View more\" button"
       },
       {
         "type": "header",
-        "content": "t:settings_schema.search_navigation.search_prompts.header"
-      },
-      {
-        "type": "paragraph",
-        "content": "t:settings_schema.search_navigation.search_prompts.info"
-      },
-      {
-        "type": "text",
-        "id": "search_prompts_1",
-        "label": "t:settings_schema.search_navigation.search_prompts.search_prompts_1.label",
-        "default": "t:settings_schema.search_navigation.search_prompts.search_prompts_1.default"
-      },
-      {
-        "type": "text",
-        "id": "search_prompts_2",
-        "label": "t:settings_schema.search_navigation.search_prompts.search_prompts_2.label",
-        "default": "t:settings_schema.search_navigation.search_prompts.search_prompts_2.default"
-      },
-      {
-        "type": "text",
-        "id": "search_prompts_3",
-        "label": "t:settings_schema.search_navigation.search_prompts.search_prompts_3.label",
-        "default": "t:settings_schema.search_navigation.search_prompts.search_prompts_3.default"
-      },
-      {
-        "type": "select",
-        "id": "search_prompts_font",
-        "label": "t:settings_schema.typography.settings.type_header_font.label",
-        "options": [
-          {
-            "label": "t:settings_schema.search_navigation.search_prompts.search_prompts_font.option_1__label",
-            "value": "search_prompts_font_text"
-          },
-          {
-            "label": "t:settings_schema.search_navigation.search_prompts.search_prompts_font.option_2__label",
-            "value": "search_prompts_font_heading"
-          }
-        ],
-        "default": "search_prompts_font_text"
+        "content": "Product cards on search box"
       },
       {
         "type": "checkbox",
-        "id": "search_prompts_mobile",
-        "label": "t:settings_schema.search_navigation.search_prompts.search_prompts_mobile.label",
+        "default": false,
+        "id": "show_price",
+        "label": "Show price"
+      },
+      {
+        "type": "checkbox",
+        "default": false,
+        "id": "show_vendor",
+        "label": "Show vendor"
+      },
+      {
+        "type": "checkbox",
+        "default": false,
+        "id": "show_rating",
+        "label": "Show rating"
+      },
+      {
+        "type": "header",
+        "content": "Default search message"
+      },
+      {
+        "type": "text",
+        "id": "default_search_message",
+        "label": "Search bar default message",
+        "default": "What are you looking for?"
+      },
+      {
+        "type": "checkbox",
+        "id": "enabled_mobile_message",
+        "label": "Enable mobile search message",
         "default": false
       },
       {
         "type": "header",
-        "content": "t:settings_schema.search_navigation.search_exclusion.label"
-      },
-      {
-        "type": "paragraph",
-        "content": "t:settings_schema.search_navigation.search_exclusion.info"
-      },
-      {
-        "type": "collection_list",
-        "id": "exclude_collections",
-        "label": "t:settings_schema.search_navigation.search_exclusion.exclude"
+        "content": "Breadcrumbs"
       },
       {
         "type": "checkbox",
-        "id": "hide_product_in_exclude_collections",
-        "label": "t:settings_schema.search_navigation.search_exclusion.hide_product.label",
-        "default": false
-      },
-      {
-        "type": "header",
-        "content": "t:sections.all.breadcrumbs.label"
-      },
-      {
-        "type": "checkbox",
-        "id": "advanced_show_breadcrumbs",
+        "id": "show_breadcrumbs",
         "default": true,
-        "label": "t:settings_schema.search_navigation.show_breadcrumbs"
+        "label": "Show breadcrumbs"
       },
       {
         "type": "select",
@@ -875,8 +847,8 @@
           }
         ],
         "default": "—",
-        "label": "t:settings_schema.search_navigation.breadcrumb_separator",
-        "visible_if": "{{ settings.advanced_show_breadcrumbs }}"
+        "label": "Breadcrumb separator",
+        "visible_if": "{{ settings.show_breadcrumbs }}"
       }
     ]
   },
@@ -889,7 +861,7 @@
       },
       {
         "type": "range",
-        "id": "title_size_pc",
+        "id": "title_size_card",
         "default": 100,
         "min": 50,
         "max": 200,
@@ -898,7 +870,7 @@
       },
       {
         "type": "range",
-        "id": "price_size_pc",
+        "id": "price_size_card",
         "default": 100,
         "min": 50,
         "max": 200,
@@ -907,7 +879,7 @@
       },
       {
         "type": "select",
-        "id": "image_ratio_pc",
+        "id": "image_ratio_card",
         "options": [
           {
             "value": "standard",
@@ -926,8 +898,8 @@
             "label": "Landscape (4:3)"
           },
           {
-            "value": "cinematic",
-            "label": "Cinematic (21:9)"
+            "value": "wide",
+            "label": "Wide (16:9)"
           }
         ],
         "default": "standard",

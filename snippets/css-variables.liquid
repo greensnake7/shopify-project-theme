@@ -9,7 +9,7 @@
   endcase
   case settings.edges_type
     when 'rounded_corners'
-      assign edges_radius = '6px'
+      assign edges_radius = '10px'
     else
       assign edges_radius = '0'
   endcase
@@ -107,5 +107,19 @@
     --color-secondary-button: {{ scheme_dark.settings.secondary_button_color }};
     --color-secondary-button-text: {{ scheme_dark.settings.secondary_button_text_color }};
     --color-link: {{ scheme_dark.settings.text_link_color }};
+  }
+  body.scrollbar-body::-webkit-scrollbar{
+    width: {{ settings.scrollbar_width }};
+  }
+  .scrollbar-body::-webkit-scrollbar{
+    width: 3px;
+  }
+  .scrollbar-body::-webkit-scrollbar-track{
+    background: var(--color-border);
+    opacity: 0.2;
+  }
+  .scrollbar-body::-webkit-scrollbar-thumb{
+    background: var(--color-text);
+    border-radius: 10px;
   }
 {% endstyle %}

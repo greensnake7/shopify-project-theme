@@ -1,0 +1,202 @@
+{%- if predictive_search.performed -%}
+  {% liquid 
+    assign resources_collections = predictive_search.resources.collections
+    assign ratio = "1/1"
+    case settings.image_ratio_search
+      when "portrait"
+        assign ratio = "2/3"
+      when "landscape"
+        assign ratio = "4/3"
+      when "wide"
+        assign ratio = "16/9"
+      when "standard"
+        assign ratio = "3/4"
+    endcase
+    assign results_size = predictive_search.resources.products.size | plus: resources_collections.size | plus: predictive_search.resources.pages.size | plus: predictive_search.resources.articles.size
+  %}
+  <div class="bg-(--color-background) search-page:bg-[rgba(var(--background-color))] shadow-[0_0_25px_2px_var(--color-border)] pt-6{% unless settings.search_show_view_more and results_size > 0 %} pb-7{% endunless %} rounded-(--edges-radius) overflow-hidden">
+    <div id="predictive-search-results" class="overflow-auto max-h-[60vh] search-page:max-h-[45vh] scrollbar-body scroll-smooth"> 
+      <div {%- if results_size > 0 %} class="content-results-{{ settings.search_style }}"{% endif %}>
+        {%- if predictive_search.resources.queries.size > 0 or predictive_search.resources.pages.size > 0 -%}
+          <div class="predictive-search-results-list search-result-query-and-page grow{% if settings.search_style == 'vertical' %} lg:flex{% endif %}">
+            {%- if predictive_search.resources.queries.size > 0 -%}
+              <div class="query-and-page-content flex-1">
+                <h2 id="predictive-search-queries" class="predictive-search-heading pl-6 pr-6 lg:pl-10 lg:pr-10 pt-2 pb-5 ">
+                  Suggestions
+                </h2>
+                <ul id="predictive-search-results-queries-list" class="predictive-result-item predictive-search-results-list{% if settings.search_style == 'horizontal' %} lg:flex{% else %} grid grid-cols-1{% endif %} gap-5 pl-6 pr-6 lg:pl-10 lg:pr-10 pb-7" role="group" aria-labelledby="predictive-search-queries">
+                  {%- for query in predictive_search.resources.queries -%}
+                    <li id="predictive-search-option-query-{{ forloop.index }}" class="predictive-search__list-item" role="option" aria-selected="false">
+                      <a href="{{ query.url }}" class="search_heading predictive-search-item nav-link hover-text-link relative px-2.5 py-1.5 rounded-(--edges-radius) duration-200 transition">
+                        {{ query.styled_text | strip_html }}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+            {%- if results_size > 0 and predictive_search.resources.pages.size > 0 -%}
+              {%- if predictive_search.resources.queries.size > 0 and settings.search_style == 'vertical' -%}<div class="line-spacing shrink-0 lg:mb-5"></div>{%- endif -%}
+              <div class="query-and-page-content flex-1">
+                <h2 id="predictive-search-pages" class="predictive-search-heading pl-6 pr-6 lg:pl-10 lg:pr-10 pb-2 md:pb-5 {% if predictive_search.resources.queries.size > 0 and settings.search_style == 'horizontal' %} border-t pt-6 lg:pt-7{% else %} pt-6 lg:pt-2{% endif %}">
+                  Pages
+                </h2>
+                <div class="predictive-result-item pb-7 pl-6 pr-6 lg:pl-10 lg:pr-10 gap-5{% if settings.search_style == 'horizontal' %} flex{% endif %}">
+                  {%- for page in predictive_search.resources.pages -%} 
+                    <div class="inline-block rounded-[(var(--edges-radius))]">
+                      <a href="{{ page.url }}" class="search_heading predictive-search-item nav-link relative hover-text-link px-2.5 py-1.5 duration-200 transition">
+                        {{ page.title | escape }}
+                      </a>
+                    </div>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endif -%} 
+          </div>
+        {%- endif -%}
+        {%- if results_size > 0 -%}
+          {%- if predictive_search.resources.queries.size > 0 or predictive_search.resources.pages.size > 0 -%}<div class="{% if settings.search_style == 'vertical' %} border-t{% else %} border-t lg:border-l{% endif %} shrink-0"></div>{%- endif -%}
+          <div class="predictive-search-results-list predictive-search-others lg:flex{% if predictive_search.resources.queries.size > 0 or predictive_search.resources.pages.size > 0 %} lg:pt-5{% endif %}">
+            {%- if predictive_search.resources.products.size > 0 -%}
+              <div class="flex-1">
+                <h2 id="predictive-search-products" class="predictive-search-heading pl-6 pr-6 lg:pl-10 lg:pr-10 pt-2 pb-2">
+                  Products
+                </h2> 
+                <ul role="listbox" aria-labelledby="predictive-search-products" class="predictive-result-item grid grid-cols-1 gap-2 pl-6 pr-6 lg:pl-10 lg:pr-10 pb-2.5">
+                  {%- for product in predictive_search.resources.products -%} 
+                    <li id="predictive-search-option-{{ forloop.index }}" class="pt-2 pb-2" role="option" aria-selected="false">
+                      <a href="{{ product.url }}" class="flex gap-x-2.5 relative disable-effect h-full">
+                        {%- if product != blank -%}
+                          <s-view-event
+                            data-view-on-render
+                            view-event-trigger="manual"
+                            view-event-payload='{{ product | standard_event_data: "view", context: "search" | escape }}'></s-view-event>
+                        {%- endif -%}
+                        <div class="w-24 relative">
+                          <div class="relative overflow-hidden w-full float-left before:h-0 before:block rounded-[(var(--edges-radius))] aspect-[{{ ratio }}]">
+                            {%- if product.featured_media != blank -%}
+                              {% # theme-check-disable ImgLazyLoading %}
+                              <img
+                                src="{{ product.featured_media | image_url: width: 150 }}"
+                                alt="{{ product.featured_media.alt | split: "#" | first | escape }}"
+                                width="{{ product.featured_media.width }}"
+                                {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+                                onload="requestAnimationFrame(() => { this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image'); });"
+                                height="{{ product.featured_media.height }}"
+                                class="h-full w-full object-cover absolute top-0 left-0 image-hover z-0 animate-Xpulse skeleton-image"
+                              >
+                              {% # theme-check-enable ImgLazyLoading %}
+                            {%- else -%}
+                              <div class="bg-[#c9c9c9]{% unless settings.product_image_ratio == "natural" %} absolute{% endunless %} top-0 left-0 w-full h-full">{%- render 'icon-placeholder', icon: 'icon-product', class: 'w-full h-full' %}</div>
+                            {%- endif -%}
+                          </div>
+                        </div>
+                        <div class="flex-1">
+                          {%- if settings.predictive_search_show_vendor -%} 
+                            <div class="leading-tight mb-2  p-break-words tracking-widest text-xs">{{ product.vendor }}</div>
+                          {%- endif -%}
+                          <div class="mb-2">
+                            <p class="p-break-words leading-tight duration-200 transition hover-text-link text-[rgba(var(--colors-heading))]">{{ product.title | escape }}</p> 
+                          </div>
+                          {%- if settings.predictive_search_show_price -%}
+                            {% render 'price', product: product, use_variant: true, show_badges: false, mini_card: true %} 
+                          {%- endif -%}
+                        </div>
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+            {%- if resources_collections.size > 0 -%} 
+              {%- if predictive_search.resources.products.size > 0 -%}<div class="line-spacing shrink-0"></div>{%- endif -%}
+              <div class="flex-1">
+                <h2 id="predictive-search-collections" class="predictive-search-heading flex-1 pl-6 pr-6 lg:pl-10 lg:pr-10{% if predictive_search.resources.products.size > 0 %} pt-6 lg:pt-7{% else %} pt-3{% endif %} pb-2 ">
+                  Collections
+                </h2>
+                <div class="predictive-result-item flex-1 pb-2.5 pl-6 pr-6 lg:pl-10 lg:pr-10 gap-2">
+                  {%- for collection in resources_collections -%} 
+                    <div class="block pt-2 pb-2">
+                      <a href="{{ collection.url }}" class="flex relative disable-effect h-full">
+                        <div class="w-24 relative">
+                          <div class="relative overflow-hidden w-full float-left rounded-[(var(--edges-radius))] aspect-[{{ ratio }}]">
+                            {%- if collection.featured_image != blank -%}
+                              {% # theme-check-disable ImgLazyLoading %}
+                              <img
+                                src="{{ collection.featured_image | image_url: width: 300 }}"
+                                alt="{{ collection.featured_image.alt | escape }}"
+                                width="{{ collection.featured_image.width }}"
+                                {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+                                onload="requestAnimationFrame(() => { this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image'); });"
+                                height="{{ collection.featured_image.height }}"
+                                class="h-full w-full object-cover absolute top-0 left-0 z-0 image-hover animate-Xpulse skeleton-image"
+                              >
+                              {% # theme-check-enable ImgLazyLoading %}
+                            {%- else -%}
+                              <div class="bg-[#c9c9c9] absolute top-0 left-0 w-full h-full">{%- render 'icon-placeholder', icon: 'icon-collection', class: 'w-full h-full' %}</div>
+                            {%- endif -%}
+                          </div>
+                        </div>
+                          <div class="pt-2 ml-5 flex-1">
+                          <p class="search_heading hover-text-link disable-effect p-break-words leading-tight duration-200 transition hover-text-link text-[rgba(var(--colors-heading))]">{{ collection.title | escape }}</p> 
+                        </div>
+                      </a>
+                    </div>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endif -%}
+            {%- if predictive_search.resources.articles.size > 0 -%} 
+              {%- if predictive_search.resources.products.size > 0 or resources_collections.size > 0 -%}<div class="line-spacing shrink-0"></div>{%- endif -%}
+              <div class="flex-1">
+                <h2 id="predictive-search-articles" class="predictive-search-heading pl-6 pr-6 lg:pl-10 lg:pr-10{% if predictive_search.resources.products.size > 0 or resources_collections.size > 0 %}  pt-6 lg:pt-7{% else %} pt-6 lg:pt-2{% endif %} pb-2 ">
+                  Articles
+                </h2>
+                <div class="predictive-result-item pb-2.5 pl-6 pr-6 lg:pl-10 lg:pr-10 gap-2">
+                  {%- for article in predictive_search.resources.articles -%} 
+                    <div class="block pt-2 pb-2">
+                      <a href="{{ article.url }}" class="flex relative disable-effect h-full">
+                        <div class="w-24 relative">
+                          <div class="relative overflow-hidden w-full float-left rounded-[(var(--edges-radius))] aspect-[{{ ratio }}]">
+                            {%- if article.image != blank -%}
+                              {% # theme-check-disable ImgLazyLoading %}
+                              <img
+                                src="{{ article.image.src | image_url: width: 300 }}"
+                                alt="{{ article.image.alt | escape }}"
+                                width="{{ article.image.width }}"
+                                {% if settings.enable_lazy_loading_image %}loading="lazy"{% else %}loading="eager"{% endif %}
+                                onload="requestAnimationFrame(() => { this.closest('.skeleton-image')?.classList.remove('animate-Xpulse', 'skeleton-image'); });"
+                                height="{{ article.image.height }}"
+                                class="h-full w-full object-cover absolute top-0 left-0 image-hover z-0 animate-Xpulse skeleton-image"
+                              >
+                              {% # theme-check-enable ImgLazyLoading %}
+                            {%- else -%}
+                              <div class="bg-[#c9c9c9] absolute top-0 left-0 w-full h-full">{%- render 'icon-placeholder', icon: 'icon-image', class: 'w-full h-full' %}</div>
+                            {%- endif -%}
+                          </div>
+                        </div>
+                        <div class="pt-2 ml-5 flex-1">
+                          <p class="search_heading line-clamp-2 hover-text-link disable-effect p-break-words leading-tight duration-200 transition hover-text-link text-[rgba(var(--colors-heading))]">{{ article.title | escape }}</p> 
+                        </div>
+                      </a>
+                    </div>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- else -%} 
+          <div class="text-center pt-5 pb-5 pl-5 pr-5" data-predictive-search-live-region-count-value>
+            No results found for "{{ predictive_search.terms }}"
+          </div>
+        {%- endif -%}
+      </div>
+      
+    </div>
+    {% if settings.search_show_view_more and results_size > 0 %}
+      <button class="background-header shadow-[0_0_6px_-4px_rgba(var(--colors-text))] pt-5 pb-5 pl-6 pr-6 lg:pl-9 lg:pr-9 border-solid rounded-none inline-block cursor-pointer hover-text-link text-center w-full text-current border-t">
+        View all results
+      </button>
+    {%- endif -%}
+  </div>
+{%- endif -%} 

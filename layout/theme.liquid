@@ -1,12 +1,13 @@
 <!doctype html>
 <html class="no-js {% if settings.theme_mode_default == "dark" and settings.theme_mode_enabled %} dark{% endif %}" lang="{{ request.locale.iso_code }}">
   <head>
+    {% render 'meta-tags' %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
     {% # Inlined CSS Variables %}
     {% liquid
       render 'css-variables' 
     %}
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+    {{ 'tailwind-output.css' | asset_url | stylesheet_tag: preload: true }}
     {%- if settings.theme_mode_enabled -%}
       <script>
         const themeMode = '{{ settings.theme_mode_mode | default: 'auto' }}';
@@ -25,10 +26,7 @@
     {%- endif -%}
 
     {% # Load and preload the critical CSS %}
-    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
-
-    {% # Social, title, etc. %}
-    {% render 'meta-tags' %}
+    {{ 'theme.css' | asset_url | stylesheet_tag: preload: true }}
 
     {{ content_for_header }}
   </head>
@@ -61,7 +59,6 @@
       <script src="{{ 'dark-mode.js' | asset_url }}" defer></script>
     {% endif %}
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
-    <script src="{{ 'vendors.js' | asset_url }}" defer>
-    </script>
+    <script src="{{ 'vendors.js' | asset_url }}" defer></script>
   </body>
 </html>
