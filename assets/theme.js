@@ -374,3 +374,21 @@ requestAnimationFrame(() => {
     });
   });
 });
+
+document.addEventListener('alpine:init', () => {
+  Alpine.store('xOverlay', {
+    stopScroll: false,
+    open() {
+      requestAnimationFrame(() => {
+        console.log('open');
+        this.stopScroll = true;
+      })
+    },
+    close() {
+      requestAnimationFrame(() => {
+        console.log('close');
+        this.stopScroll = false;
+      })
+    }
+  })
+})

@@ -1,93 +1,165 @@
 {% style %}
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  header a {
-    position: relative;
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
-  }
-  header .header__menu {
-    display: flex;
-    gap: 1rem;
-  }
+  {% if section.settings.sticky_header == "always" %}
+    .section-header {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+    }
+    #x-header-container.is-scrolled {
+      box-shadow: 0 5px 15px color-mix(in srgb, var(--color-text) 10%, transparent);
+    }
+  {% endif %}
+  {% if section.settings.sticky_header == "scroll-up" %}
+    .section-header:has(#x-header-container.is-sticky) {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+    }
+    #x-header-container.is-sticky:not(.scroll-up-animation) {
+      box-shadow: 0 5px 15px color-mix(in srgb, var(--color-text) 10%, transparent);
+    }
+    #x-header-container.is-animation {
+      transform: translateY(0);
+      transition: transform 0.4s ease-in-out 0.1s;
+      will-change: transform;
+    }
+    #x-header-container.scroll-up-animation {
+      transform: translateY(var(--header-sticky-transform));
+    }
+    .section-header:has(#x-header-container.scroll-up-animation) {
+      pointer-events: none
+    }
+  {% endif %}
 {% endstyle %}
 {% liquid
+  assign logo_position = section.settings.logo_position
+  assign search_on_header = section.settings.search_on_header
+  assign enable_hamburger_menu = section.settings.enable_hamburger_menu
 %}
-<header class="page-width">
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
-
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
-  {% if section.settings.search_on_header %}
-    {% render 'header-search-item' %}
-  {% endif %}
-  <div class="header__icons flex">
-    <div class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 {% if section.settings.search_on_header %}block md:hidden{% endif %}">
-      {% render 'icon-alls', icon: 'icon-search', animation_class: 'icon-animation' %}
-    </div>
-    {%- if shop.customer_accounts_enabled -%}
-      <shopify-account class="header-icon-account flex relative items-center justify-center" menu="{{ settings.customer_account_menu }}">
-        <div slot="signed-out-avatar">
-          <span class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 block">
-            {% render 'icon-alls', icon: 'icon-account', animation_class: 'icon-animation' %}
-          </span>
+<div 
+  id="x-header-container"
+  class="bg-(--color-background) is-animation"
+  x-init='() => {
+    $store.xHeader.sectionId = "{{ section.id }}";
+    $store.xHeader.initSticky($el, "{{ section.settings.sticky_header }}");
+    document.addEventListener("shopify:section:load", function(event) {
+      $store.xHeader.reset();
+    })
+  }'
+>
+  <div class="page-width py-5 flex items-center {% if logo_position == 'center' %}flex-col justify-center{% else %}justify-between{% endif %} gap-y-3">
+    {% if logo_position == 'center' and search_on_header or enable_hamburger_menu == false %}
+      {% render 'shop-logo', 
+        logo: section.settings.logo, 
+        aspect_ratio: section.settings.logo_ratio, 
+        logo_desktop_width: section.settings.logo_desktop_width, 
+        logo_mobile_width: section.settings.logo_mobile_width
+      %}
+    {% endif %}
+    <header class="grow grid grid-cols-[1fr_2fr_1fr] justify-between items-center w-full gap-x-6">
+      <div class="header_left flex items-center gap-x-2">
+        {% if logo_position == 'left' %}
+          {% render 'shop-logo', 
+            logo: section.settings.logo, 
+            aspect_ratio: section.settings.logo_ratio, 
+            logo_desktop_width: section.settings.logo_desktop_width, 
+            logo_mobile_width: section.settings.logo_mobile_width
+          %}
+        {% endif %}
+        <div class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 block {% if enable_hamburger_menu %}md:hidden{% endif %}">
+          {% render 'icon-alls', icon: 'icon-hamburger', animation_class: 'icon-animation' %}
         </div>
-      </shopify-account>
-    {%- endif -%}
-    <a href="{{ routes.cart_url }}" class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 block">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
-      {% endif %}
-      {% render 'icon-alls', icon: 'icon-cart', animation_class: 'icon-animation' %}
-    </a>
-    {%- if settings.theme_mode_enabled -%}
-      {%- if settings.theme_mode_mode == 'switch' -%}
-        <theme-mode x-data>
-          <button
-            @click.prevent="$store.xDarkMode.toggleThemeMode()"
-            class="text-sm w-11 h-11 pl-3 pr-3 pt-3 pb-3 block"
+      </div>
+      <div class="header_center flex flex-col justify-center items-center gap-y-3">
+        {% if logo_position == 'center' and search_on_header == false and enable_hamburger_menu %}
+          {% render 'shop-logo', 
+            logo: section.settings.logo, 
+            aspect_ratio: section.settings.logo_ratio, 
+            logo_desktop_width: section.settings.logo_desktop_width, 
+            logo_mobile_width: section.settings.logo_mobile_width
+          %}
+        {% endif %}
+        <div class="rounded-(--edges-radius) z-30 {% unless search_on_header %}p-2 fixed bg-(--color-background) left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-240 animation-x-expand{% else %}w-full{% endunless %}"
+          {% unless search_on_header %}
+            x-cloak
+            x-show="$store.xHeader.showSearchBar"
+            @click.away="$store.xHeader.showSearchBar = false;
+              document.getElementById('x-header-container').classList.add('is-animation');
+              $store.xOverlay.close();
+            "
+          {% endunless %}
+        >
+          {% render 'header-search-item', search_on_header: search_on_header %}
+        </div>
+        {% unless enable_hamburger_menu %}
+          <div class="header_menu gap-x-10 pt-3 hidden md:flex">
+            {% for link in section.settings.menu.links %}
+              {{ link.title | link_to: link.url }}
+            {% endfor %}
+          </div>
+        {% endunless %}
+      </div>
+      <div class="header_right flex {% if search_on_header and enable_hamburger_menu == false %}self-start{% else %}self-center{% endif %} justify-self-end">
+        {% unless search_on_header %}
+          <div class="w-11 h-11 pl-3 pr-3 pt-3 pb-3" 
+            @click="$store.xHeader.showSearchBar = true;
+              document.getElementById('x-header-container').classList.remove('is-animation');
+              $store.xOverlay.open();
+            "
           >
-            <span x-cloak class="block" x-show="$store.xDOM.rePainting === $store.xDarkMode.alias">
-              {% render 'icon-alls', icon: 'icon-loading' %}
-            </span>
-            <span x-cloak class="hidden dark:block" x-show="$store.xDOM.rePainting !== $store.xDarkMode.alias">
-              <svg class="icon-animation" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5229 6.47715 22 12 22C17.5229 22 22 17.5229 22 12C22 6.47715 17.5229 2 12 2ZM12 20.75C7.1675 20.75 3.25 16.8325 3.25 12C3.25 7.1675 7.1675 3.25 12 3.25C16.8325 3.25 20.75 7.1675 20.75 12C20.75 16.8325 16.8325 20.75 12 20.75Z" fill="currentColor"/>
-                <path d="M12 5.125C11.6548 5.125 11.375 5.4048 11.375 5.75V18.25C11.375 18.5952 11.6548 18.875 12 18.875C15.797 18.875 18.875 15.797 18.875 12C18.875 8.20305 15.797 5.125 12 5.125Z" fill="currentColor"/>
-              </svg>
-            </span>
-            <span x-cloak class="block dark:hidden" x-show="$store.xDOM.rePainting !== $store.xDarkMode.alias">
-              <svg class="icon-animation" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none">
-                <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5229 6.47715 22 12 22C17.5229 22 22 17.5229 22 12C22 6.47715 17.5229 2 12 2ZM12 20.75C7.1675 20.75 3.25 16.8325 3.25 12C3.25 7.1675 7.1675 3.25 12 3.25C16.8325 3.25 20.75 7.1675 20.75 12C20.75 16.8325 16.8325 20.75 12 20.75Z" fill="currentColor"/>
-                <path d="M12.25 5.125C12.5952 5.125 12.875 5.4048 12.875 5.75V18.25C12.875 18.5952 12.5952 18.875 12.25 18.875C8.45305 18.875 5.375 15.797 5.375 12C5.375 8.20305 8.45305 5.125 12.25 5.125Z" fill="currentColor"/>
-              </svg>
-            </span>
-          </button>
-        </theme-mode>
-      {%- endif -%}
-    {%- endif -%}
-    <div class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 block">
-      {% render 'icon-alls', icon: 'icon-hamburger', animation_class: 'icon-hamburger' %}
-    </div>
+            {% render 'icon-alls', icon: 'icon-search', animation_class: 'icon-animation' %}
+          </div>
+        {% endunless %}
+        {%- if shop.customer_accounts_enabled -%}
+          <shopify-account class="header-icon-account flex relative items-center justify-center" menu="{{ settings.customer_account_menu }}">
+            <div slot="signed-out-avatar">
+              <span class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 block">
+                {% render 'icon-alls', icon: 'icon-account', animation_class: 'icon-animation' %}
+              </span>
+            </div>
+          </shopify-account>
+        {%- endif -%}
+        <a href="{{ routes.cart_url }}" class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 block">
+          {% if cart.item_count > 0 %}
+            <sup>{{ cart.item_count }}</sup>
+          {% endif %}
+          {% render 'icon-alls', icon: 'icon-cart', animation_class: 'icon-animation' %}
+        </a>
+        {%- if settings.theme_mode_enabled -%}
+          {%- if settings.theme_mode_mode == 'switch' -%}
+            <theme-mode x-data>
+              <button
+                @click.prevent="$store.xDarkMode.toggleThemeMode()"
+                class="text-sm w-11 h-11 pl-3 pr-3 pt-3 pb-3 block"
+              >
+                <span x-cloak class="block" x-show="$store.xDOM.rePainting === $store.xDarkMode.alias">
+                  {% render 'icon-alls', icon: 'icon-loading' %}
+                </span>
+                <span x-cloak class="hidden dark:block" x-show="$store.xDOM.rePainting !== $store.xDarkMode.alias">
+                  <svg class="icon-animation" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5229 6.47715 22 12 22C17.5229 22 22 17.5229 22 12C22 6.47715 17.5229 2 12 2ZM12 20.75C7.1675 20.75 3.25 16.8325 3.25 12C3.25 7.1675 7.1675 3.25 12 3.25C16.8325 3.25 20.75 7.1675 20.75 12C20.75 16.8325 16.8325 20.75 12 20.75Z" fill="currentColor"/>
+                    <path d="M12 5.125C11.6548 5.125 11.375 5.4048 11.375 5.75V18.25C11.375 18.5952 11.6548 18.875 12 18.875C15.797 18.875 18.875 15.797 18.875 12C18.875 8.20305 15.797 5.125 12 5.125Z" fill="currentColor"/>
+                  </svg>
+                </span>
+                <span x-cloak class="block dark:hidden" x-show="$store.xDOM.rePainting !== $store.xDarkMode.alias">
+                  <svg class="icon-animation" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5229 6.47715 22 12 22C17.5229 22 22 17.5229 22 12C22 6.47715 17.5229 2 12 2ZM12 20.75C7.1675 20.75 3.25 16.8325 3.25 12C3.25 7.1675 7.1675 3.25 12 3.25C16.8325 3.25 20.75 7.1675 20.75 12C20.75 16.8325 16.8325 20.75 12 20.75Z" fill="currentColor"/>
+                    <path d="M12.25 5.125C12.5952 5.125 12.875 5.4048 12.875 5.75V18.25C12.875 18.5952 12.5952 18.875 12.25 18.875C8.45305 18.875 5.375 15.797 5.375 12C5.375 8.20305 8.45305 5.125 12.25 5.125Z" fill="currentColor"/>
+                  </svg>
+                </span>
+              </button>
+            </theme-mode>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </header>
   </div>
-</header>
+  <div x-cloak x-show="$store.xHeader.showSearchBar" class="fixed top-0 bottom-0 left-0 right-0 cursor-pointer z-20 transition-opacity duration-500 bg-[#c9c9c9]/30 backdrop-blur-xs"></div>
+</div>
 {% schema %}
 {
   "name": "t:general.header",
+  "class": "section-header",
   "settings": [
     {
       "type": "link_list",
@@ -113,15 +185,15 @@
       "label": "Logo position",
       "options": [
         {
-          "value": "logo_on_side",
-          "label": "Logo on side"
+          "value": "left",
+          "label": "Left"
         },
         {
-          "value": "logo_on_top",
-          "label": "Logo on top"
+          "value": "center",
+          "label": "Center"
         }
       ],
-      "default": "logo_on_top"
+      "default": "left"
     },
     {
       "type": "select",
@@ -149,7 +221,7 @@
           "label": "None"
         },
         {
-          "value": "scroll_up",
+          "value": "scroll-up",
           "label": "On scroll up"
         },
         {
@@ -164,13 +236,41 @@
       "label": "Logo"
     },
     {
+      "type": "select",
+      "id": "logo_ratio",
+      "options": [
+        {
+          "value": "3/4",
+          "label": "Standard (3:4)"
+        },
+        {
+          "value": "square",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "2/3",
+          "label": "Portrait (2:3)"
+        },
+        {
+          "value": "4/3",
+          "label": "Landscape (4:3)"
+        },
+        {
+          "value": "16/9",
+          "label": "Wide (16:9)"
+        }
+      ],
+      "default": "3/4",
+      "label": "Logo ratio"
+    },
+    {
       "type": "range",
       "id": "logo_desktop_width",
       "label": "Logo desktop width",
       "min": 50,
-      "max": 200,
+      "max": 300,
       "step": 10,
-      "default": 100,
+      "default": 120,
       "unit": "px"
     },
     {
@@ -180,7 +280,7 @@
       "min": 40,
       "max": 150,
       "step": 10,
-      "default": 60,
+      "default": 100,
       "unit": "px"
     }
   ]

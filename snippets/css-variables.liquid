@@ -122,4 +122,17 @@
     background: var(--color-text);
     border-radius: 10px;
   }
+  .section-padding {
+    padding-top: {{ settings.section_padding_top_mobile }}px;
+    padding-bottom: {{ settings.section_padding_bottom_mobile }}px;
+  }
+  @media (min-width: 1024px) {
+    .section-padding {
+      padding-top: {{ settings.section_padding_top }}px;
+      padding-bottom: {{ settings.section_padding_bottom }}px;
+    }
+  }
+  .padding-scrollbar, .padding-scrollbar-header {
+    padding-right: {{ settings.scrollbar_width }};
+  }
 {% endstyle %}

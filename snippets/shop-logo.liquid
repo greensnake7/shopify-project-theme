@@ -1,0 +1,35 @@
+{% style %}
+  .w-shop-logo {
+    width: {{ logo_mobile_width }}px;
+  }
+  @media (min-width: 768px) {
+    .w-shop-logo {
+      width: {{ logo_desktop_width }}px;
+    }
+  }
+{% endstyle %}
+<a href="{{ routes.root_url }}" class="w-shop-logo aspect-{{ aspect_ratio }} inline-block">
+  {%- if logo != blank -%}
+    {%- assign logo_alt = logo.alt | default: shop.name | escape -%}
+    <img
+      src="{{ logo | image_url: width: logo.width }}"
+      alt="{{ logo_alt }}"
+      sizes="(min-width: 768px) {{ section.settings.logo_width }}px, {{ section.settings.logo_width_mobile }}px"
+      srcset="{{ logo | image_url: width: 50 }} 50w,
+        {{ logo | image_url: width: 100 }} 100w,
+        {{ logo | image_url: width: 150 }} 150w,
+        {{ logo | image_url: width: 200 }} 200w,
+        {{ logo | image_url: width: 250 }} 250w,
+        {{ logo | image_url: width: 300 }} 300w,
+        {{ logo | image_url: width: 400 }} 400w,
+        {{ logo | image_url: width: 500 }} 500w,
+        {{ logo | image_url: width: 600 }} 600w"
+      width="{{ logo.width }}"
+      height="{{ logo.height }}"
+      class="object-cover w-full h-full"
+      loading="lazy"
+    />
+  {%- else -%}
+    <span class="h2 block">{{ shop.name }}</span>
+  {%- endif -%}
+</a>

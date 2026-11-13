@@ -31,7 +31,10 @@
     {{ content_for_header }}
   </head>
 
-  <body class="">
+  <body x-data 
+    class="relative scrollbar-body overflow-x-hidden"
+    :class="$store.xOverlay.stopScroll && 'overflow-hidden padding-scrollbar'"
+  >
     {%- if settings.page_transition -%}
       <script>
         window.addEventListener('DOMContentLoaded', (event) => {
@@ -59,6 +62,7 @@
       <script src="{{ 'dark-mode.js' | asset_url }}" defer></script>
     {% endif %}
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    <script src="{{ 'header.js' | asset_url }}" defer></script>
     <script src="{{ 'vendors.js' | asset_url }}" defer></script>
   </body>
 </html>

@@ -14,7 +14,7 @@
     endcase
     assign results_size = predictive_search.resources.products.size | plus: resources_collections.size | plus: predictive_search.resources.pages.size | plus: predictive_search.resources.articles.size
   %}
-  <div class="bg-(--color-background) search-page:bg-[rgba(var(--background-color))] shadow-[0_0_25px_2px_var(--color-border)] pt-6{% unless settings.search_show_view_more and results_size > 0 %} pb-7{% endunless %} rounded-(--edges-radius) overflow-hidden">
+  <div class="predictive-search bg-(--color-background) search-page:bg-[rgba(var(--background-color))] pt-6 pb-6 rounded-(--edges-radius) overflow-hidden">
     <div id="predictive-search-results" class="overflow-auto max-h-[60vh] search-page:max-h-[45vh] scrollbar-body scroll-smooth"> 
       <div {%- if results_size > 0 %} class="content-results-{{ settings.search_style }}"{% endif %}>
         {%- if predictive_search.resources.queries.size > 0 or predictive_search.resources.pages.size > 0 -%}

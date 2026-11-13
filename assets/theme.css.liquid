@@ -1,7 +1,6 @@
 
 * {
   box-sizing: border-box;
-  margin: 0;
 }
 
 *,
@@ -110,19 +109,9 @@ body{
  * When a child element is given the `full-width` class, it will span
  * the entire viewport.
  */
-.shopify-section {
+.x-section {
   margin-top: var(--advanced-sections-spacing);
   margin-bottom: var(--advanced-sections-spacing);
-}
-
-/* Child elements, by default, are constrained to the central column of the grid. */
-.shopify-section > * {
-  grid-column: 2;
-}
-
-/* Child elements that use the full-width utility class span the entire viewport. */
-.shopify-section > .full-width {
-  grid-column: 1 / -1;
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
@@ -204,6 +193,20 @@ h6, .h6 {
   .text-large{
     font-size: var(--font-size-large);
   }
+}
+@keyframes x-expand {
+  0%{
+    transform: scaleX(0.5);
+    opacity: 0;
+  }
+  100%{
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+.animation-x-expand {
+  transform-origin: center top;
+  animation: x-expand 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards
 }
 .icon-animation{
   will-change: transform;

@@ -497,6 +497,46 @@
         "label": "t:settings_schema.design.layout.page_width"
       },
       {
+        "type": "range",
+        "id": "section_padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "default": 40,
+        "unit": "px",
+        "label": "Desktop top padding"
+      },
+      {
+        "type": "range",
+        "id": "section_padding_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "default": 40,
+        "unit": "px",
+        "label": "Desktop bottom padding"
+      },
+      {
+        "type": "range",
+        "id": "section_padding_top_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "default": 20,
+        "unit": "px",
+        "label": "Mobile top padding"
+      },
+      {
+        "type": "range",
+        "id": "section_padding_bottom_mobile",
+        "min": 0,
+        "max": 100,
+        "step": 4,
+        "default": 20,
+        "unit": "px",
+        "label": "Mobile bottom padding"
+      },
+      {
         "type": "header",
         "content": "Popup"
       },
@@ -535,39 +575,35 @@
       },
       {
         "type": "header",
-        "content": "t:settings_schema.design.scrollbar.header"
+        "content": "Scroll bar"
       },
       {
         "type": "select",
         "id": "scrollbar_width",
         "options": [
           {
-            "value": "initial",
-            "label": "t:settings_schema.design.scrollbar.width.default_browser"
-          },
-          {
             "value": "3px",
-            "label": "t:settings_schema.design.scrollbar.width.very_thin"
+            "label": "Very thin"
           },
           {
             "value": "5px",
-            "label": "t:settings_schema.design.scrollbar.width.thin"
+            "label": "Thin"
           },
           {
             "value": "8px",
-            "label": "t:sections.all.size.options__2.label"
+            "label": "Medium"
           },
           {
             "value": "11px",
-            "label": "t:sections.all.size.options__3.label"
+            "label": "Large"
           },
           {
             "value": "14px",
-            "label": "t:settings_schema.design.scrollbar.width.very_large"
+            "label": "Very large"
           }
         ],
-        "default": "3px",
-        "label": "t:settings_schema.design.scrollbar.width.label"
+        "default": "5px",
+        "label": "Main scroll bar width"
       },
       {
         "type": "header",
