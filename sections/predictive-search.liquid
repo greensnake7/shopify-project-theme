@@ -17,11 +17,11 @@
   {% endstyle %}
   <div class="predictive-search bg-(--color-background) search-page:bg-(--color-background) pt-6 pb-6 rounded-(--edges-radius) overflow-hidden">
     <div id="predictive-search-results" class="overflow-auto max-h-[60vh] search-page:max-h-[45vh] scrollbar-body scroll-smooth"> 
-      <div {% if results_size > 0 %}class="{% if settings.search_style == 'vertical' %}flex flex-col{% else %}grid grid-cols-2{% endif %}"{% endif %}>
+      <div {% if results_size > 0 %}class="{% if settings.search_style == 'vertical' %}flex flex-col{% else %}grid md:grid-cols-2{% endif %}"{% endif %}>
         {%- if predictive_search.resources.queries.size > 0 or predictive_search.resources.pages.size > 0 -%}
           <div class="predictive-search-results-list search-result-query-and-page flex flex-row pb-6">
             {%- if predictive_search.resources.queries.size > 0 -%}
-              <div class="query-and-page-content flex-1 flex flex-col pl-6 pr-6 lg:pl-10 lg:pr-10 {% if results_size > 0 and predictive_search.resources.pages.size > 0 %}border-r{% endif %}">
+              <div class="query-and-page-content flex-1 flex flex-col pl-3 pr-3 lg:pl-6 lg:pr-6 {% if results_size > 0 and predictive_search.resources.pages.size > 0 %}border-r{% endif %}">
                 <h5 id="predictive-search-queries" class="predictive-search-heading pb-5 px-3">Suggestions</h5>
                 <ul id="predictive-search-results-queries-list" class="predictive-result-item predictive-search-results-list flex flex-wrap gap-5" role="group" aria-labelledby="predictive-search-queries">
                   {%- for query in predictive_search.resources.queries -%}
@@ -35,7 +35,7 @@
               </div>
             {%- endif -%}
             {%- if results_size > 0 and predictive_search.resources.pages.size > 0 -%}
-              <div class="query-and-page-content flex-1 flex flex-col pl-6 pr-6 lg:pl-10 lg:pr-10">
+              <div class="query-and-page-content flex-1 flex flex-col pl-3 pr-3 lg:pl-6 lg:pr-6">
                 <h5 id="predictive-search-pages" class="predictive-search-heading pb-5 px-3">Pages</h5>
                 <div class="predictive-result-item gap-5 flex flex-wrap">
                   {%- for page in predictive_search.resources.pages -%} 
@@ -64,7 +64,7 @@
                 endif
               endif
             %}
-            <div class="pl-6 pr-6 lg:pl-10 lg:pr-10 pb-6">
+            <div class="pl-3 pr-3 lg:pl-6 lg:pr-6 pb-6">
               <h5 id="predictive-search-products" class="predictive-search-heading pb-5 px-3">Products</h5>
               <div id="predictive-search-products-{{ section.id }}" class="splide visible overflow-hidden" x-show="openResults"
                 {% if enable_desktop_slider or swiper_on_mobile %}
@@ -112,7 +112,7 @@
                   </button>
                 </div>
                 <div class="splide__track">
-                  <div class="splide__list predictive-result-item {% if settings.search_style == 'vertical' %}{% unless enable_desktop_slider %}md:grid md:grid-cols-4 gap-5{% endunless %} {% unless swiper_on_mobile %}grid grid-cols-2 gap-4{% endunless %}{% endif %}">
+                  <div class="splide__list predictive-result-item {% if settings.search_style == 'vertical' %}{% unless enable_desktop_slider %}md:grid md:grid-cols-4 gap-5{% endunless %} {% unless swiper_on_mobile %}grid grid-cols-2 gap-4{% endunless %}{% else %}flex flex-col gap-2{% endif %}">
                     {%- for product in predictive_search.resources.products -%} 
                       <div id="predictive-search-option-{{ forloop.index }}" class="splide__slide" aria-selected="false">
                         <a href="{{ product.url }}" class="flex gap-4 relative disable-effect h-full {% if settings.search_style == 'vertical' %}flex-col{% else %}flex-row{% endif %}">
@@ -155,9 +155,9 @@
             </div>
           {%- endif -%}
           {%- if resources_collections.size > 0 -%} 
-            <div class="pl-6 pr-6 lg:pl-10 lg:pr-10 pb-6">
+            <div class="pl-3 pr-3 lg:pl-6 lg:pr-6 pb-6">
               <h5 id="predictive-search-collections" class="predictive-search-heading pb-5 px-3">Collections</h5>
-              <div class="predictive-result-item flex-1 pb-2.5 pl-6 pr-6 lg:pl-10 lg:pr-10 gap-2">
+              <div class="predictive-result-item flex-1 pb-2.5 pl-3 pr-3 lg:pl-6 lg:pr-6 gap-2">
                 {%- for collection in resources_collections -%} 
                   <div class="block pt-2 pb-2">
                     <a href="{{ collection.url }}" class="flex relative disable-effect h-full">
@@ -190,9 +190,9 @@
             </div>
           {%- endif -%}
           {%- if predictive_search.resources.articles.size > 0 -%} 
-            <div class="pl-6 pr-6 lg:pl-10 lg:pr-10 pb-6">
+            <div class="pl-3 pr-3 lg:pl-6 lg:pr-6 pb-6">
               <h5 id="predictive-search-articles" class="predictive-search-heading pb-5 px-3">Articles</h5>
-              <div class="predictive-result-item pb-2.5 pl-6 pr-6 lg:pl-10 lg:pr-10 gap-2">
+              <div class="predictive-result-item pb-2.5 pl-3 pr-3 lg:pl-6 lg:pr-6 gap-2">
                 {%- for article in predictive_search.resources.articles -%} 
                   <div class="block pt-2 pb-2">
                     <a href="{{ article.url }}" class="flex relative disable-effect h-full">
