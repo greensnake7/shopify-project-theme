@@ -1,4 +1,12 @@
 {%- case icon -%}
+{% when "chevron-left" %}
+  <svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <path fill="none" d="M16 1L5 12L16 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+{% when "chevron-right" %}
+  <svg aria-hidden="true" width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+    <path fill="none" d="M8 1L19 12L8 23" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
 {%- when 'icon-transition-arrow' -%}
   <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 9 18" fill="none" style="fill:none;">
     <path d="M1.00122 1L8.00122 9L1.00122 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -20,7 +28,7 @@
     <path d="M4.5.643 7.5 4.5 4.5 8.357M.5.643 3.5 4.5.5 8.357" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>
 {%- when 'icon-arrow' -%}
-  <svg class="{% if enable_email_footer or enable_blog_detail %} h-[var(--base-font-size)] w-[var(--base-font-size)]{% else %} w-full h-full{% endif %}" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <svg class="{% if enable_email_footer or enable_blog_detail %} h-(--font-size-p1) w-(--font-size-p1){% else %} w-full h-full{% endif %}" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
     <path d="M597.34016 170.65984q18.00192 0 30.33088 12.32896l298.65984 298.65984q12.32896 12.32896 12.32896 30.33088t-12.32896 30.33088l-298.65984 298.65984q-12.32896 12.32896-30.33088 12.32896-18.3296 0-30.49472-12.16512t-12.16512-30.49472q0-18.00192 12.32896-30.33088l225.9968-225.66912-665.00608 0q-17.67424 0-30.16704-12.4928t-12.4928-30.16704 12.4928-30.16704 30.16704-12.4928l665.00608 0-225.9968-225.66912q-12.32896-12.32896-12.32896-30.33088 0-18.3296 12.16512-30.49472t30.49472-12.16512z"  />
   </svg> 
 {%- when 'icon-caret' -%}

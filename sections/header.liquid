@@ -47,39 +47,39 @@
     })
   }'
 >
-  <div class="page-width py-5 flex items-center {% if logo_position == 'center' %}flex-col justify-center{% else %}justify-between{% endif %} gap-y-3">
-    {% if logo_position == 'center' and search_on_header or enable_hamburger_menu == false %}
+  <div class="page-width py-5 flex items-center flex-col {% if logo_position == 'center' %}md:flex-col justify-center{% else %}md:flex-row justify-between{% endif %} md:gap-y-3 gap-y-1">
+    <div class="{% if logo_position == 'center' and search_on_header or enable_hamburger_menu == false %}md:block{% endif %} hidden">
       {% render 'shop-logo', 
         logo: section.settings.logo, 
         aspect_ratio: section.settings.logo_ratio, 
         logo_desktop_width: section.settings.logo_desktop_width, 
         logo_mobile_width: section.settings.logo_mobile_width
       %}
-    {% endif %}
-    <header class="grow grid grid-cols-[1fr_2fr_1fr] justify-between items-center w-full gap-x-6">
+    </div>
+    <header class="grow grid md:grid-cols-[1fr_2fr_1fr] {% if logo_position == 'left' %}grid-cols-[2fr_1fr_2fr]{% else %}grid-cols-[1fr_2fr_1fr]{% endif %} justify-between items-center w-full gap-x-6">
       <div class="header_left flex items-center gap-x-2">
-        {% if logo_position == 'left' %}
+        <div class="{% if logo_position == 'center' %}hidden{% endif %}">
           {% render 'shop-logo', 
             logo: section.settings.logo, 
             aspect_ratio: section.settings.logo_ratio, 
             logo_desktop_width: section.settings.logo_desktop_width, 
             logo_mobile_width: section.settings.logo_mobile_width
           %}
-        {% endif %}
-        <div class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 block {% if enable_hamburger_menu %}md:hidden{% endif %}">
+        </div>
+        <div class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 {% if logo_position == 'left' %}hidden{% else %}block{% endif %} {% if enable_hamburger_menu %}md:block{% else %}md:hidden{% endif %}">
           {% render 'icon-alls', icon: 'icon-hamburger', animation_class: 'icon-animation' %}
         </div>
       </div>
-      <div class="header_center flex flex-col justify-center items-center gap-y-3">
-        {% if logo_position == 'center' and search_on_header == false and enable_hamburger_menu %}
+      <div class="header_center flex flex-col justify-center items-center gap-y-1 md:gap-y-3">
+        <div class="{% if logo_position == 'center' %}{% if search_on_header or enable_hamburger_menu == false %}md:hidden{% else %}md:flex justify-center{% endif %}{% else %}hidden{% endif %}">
           {% render 'shop-logo', 
             logo: section.settings.logo, 
             aspect_ratio: section.settings.logo_ratio, 
             logo_desktop_width: section.settings.logo_desktop_width, 
             logo_mobile_width: section.settings.logo_mobile_width
           %}
-        {% endif %}
-        <div class="rounded-(--edges-radius) z-30 {% unless search_on_header %}p-2 fixed bg-(--color-background) left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-240 animation-x-expand{% else %}w-full{% endunless %}"
+        </div>
+        <div class="rounded-(--edges-radius) z-30 {% unless search_on_header %}p-2 fixed bg-(--color-background) left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-240 animation-x-expand{% else %}w-full hidden md:block{% endunless %}"
           {% unless search_on_header %}
             x-cloak
             x-show="$store.xHeader.showSearchBar"
@@ -92,7 +92,7 @@
           {% render 'header-search-item', search_on_header: search_on_header %}
         </div>
         {% unless enable_hamburger_menu %}
-          <div class="header_menu gap-x-10 pt-3 hidden md:flex">
+          <div class="menu header_menu gap-x-10 pt-3 hidden md:flex justify-center">
             {% for link in section.settings.menu.links %}
               {{ link.title | link_to: link.url }}
             {% endfor %}
@@ -111,7 +111,7 @@
           </div>
         {% endunless %}
         {%- if shop.customer_accounts_enabled -%}
-          <shopify-account class="header-icon-account flex relative items-center justify-center" menu="{{ settings.customer_account_menu }}">
+          <shopify-account class="header-icon-account hidden md:block relative items-center justify-center" menu="{{ settings.customer_account_menu }}">
             <div slot="signed-out-avatar">
               <span class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 block">
                 {% render 'icon-alls', icon: 'icon-account', animation_class: 'icon-animation' %}
@@ -125,9 +125,12 @@
           {% endif %}
           {% render 'icon-alls', icon: 'icon-cart', animation_class: 'icon-animation' %}
         </a>
+        <div class="w-11 h-11 pl-3 pr-3 pt-3 pb-3 {% if logo_position == 'left' %}block{% else %}hidden{% endif %} md:hidden">
+          {% render 'icon-alls', icon: 'icon-hamburger', animation_class: 'icon-animation' %}
+        </div>
         {%- if settings.theme_mode_enabled -%}
           {%- if settings.theme_mode_mode == 'switch' -%}
-            <theme-mode x-data>
+            <theme-mode x-data class="hidden md:block">
               <button
                 @click.prevent="$store.xDarkMode.toggleThemeMode()"
                 class="text-sm w-11 h-11 pl-3 pr-3 pt-3 pb-3 block"
@@ -153,6 +156,20 @@
         {%- endif -%}
       </div>
     </header>
+    {% if search_on_header %}
+      <div class="rounded-(--edges-radius) z-30 {% unless search_on_header %}p-2 fixed bg-(--color-background) left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-240 animation-x-expand{% else %}w-full{% endunless %} block md:hidden"
+        {% unless search_on_header %}
+          x-cloak
+          x-show="$store.xHeader.showSearchBar"
+          @click.away="$store.xHeader.showSearchBar = false;
+            document.getElementById('x-header-container').classList.add('is-animation');
+            $store.xOverlay.close();
+          "
+        {% endunless %}
+      >
+        {% render 'header-search-item', search_on_header: search_on_header %}
+      </div>
+    {% endif %}
   </div>
   <div x-cloak x-show="$store.xHeader.showSearchBar" class="fixed top-0 bottom-0 left-0 right-0 cursor-pointer z-20 transition-opacity duration-500 bg-[#c9c9c9]/30 backdrop-blur-xs"></div>
 </div>

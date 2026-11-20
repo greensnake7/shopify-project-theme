@@ -17,7 +17,7 @@
 
 <div x-data="xModalSearch('{{ search_type }}','{{ settings.search_desktop_maximun_results }}',{{ settings.search_mobile_maximun_results }}, 'All types')"
   class="x-container-header-search justify-center items-center w-full header-search"
-  @click.away="openResults = false;"
+  @click.away="openResults = false; query = '';"
 >
   {%- if settings.predictive_search_enabled -%}
     <div class="relative w-full" data-loading-text="Loading...">
@@ -27,10 +27,8 @@
       {% if settings.search_refined %}
         <div class="md:relative search-categories flex items-center w-1/4">
           <div class="flex shrink min-w-0 w-full border-r pl-2 pr-2"
-            x-data="{
-              open: false
-            }"
-            @keyup.escape="open = false"
+            x-data="{ open: false }"
+            @keyup.escape="open = false;"
           >
             <button @click.prevent="open = ! open;"
               class="relative flex items-center justify-between shrink min-w-0 gap-2 w-full p-2 text-left cursor-pointer hover-text-link duration-200 transition bg-(--color-background-secondary) {% if settings.edges_type == 'rounded_corners' %}rounded-md{% endif %}"
@@ -122,6 +120,7 @@
           type="search"
           name="q"
           value=""
+          x-model="query"
           x-on:keyup="keyUp()"
           @keydown.tab="openResults = false;"
           @focus="focusForm()"

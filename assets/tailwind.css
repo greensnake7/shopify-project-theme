@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./splide.min.css" layer(components);
 
 @source "../sections";
 @source "../snippets";

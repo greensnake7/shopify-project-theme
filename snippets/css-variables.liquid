@@ -16,43 +16,74 @@
   assign scheme = settings.color_scheme
   assign scheme_dark = settings.color_scheme_dark
 %}
-
+{%- render 'typography-sizes' -%}
 {% style %}
   :root,
   *:before {
-    --base-font-size: {{ settings.text_base_size | times: 0.00875 }}rem;
-    --font-size-medium-mobile: {{ settings.text_base_size | times: 0.009 }}rem;
-    --font-size-medium: {{ settings.text_base_size | times: 0.01 }}rem;
-    --font-size-small: {{ settings.text_base_size | times: 0.00625 }}rem;
-    --font-size-small-mobile: {{ settings.text_base_size | times: 0.005625 }}rem;
-    --font-size-normal: {{ settings.text_base_size | times: 0.0075 }}rem;
-    --font-size-normal-mobile: {{ settings.text_base_size | times: 0.00675 }}rem;
-    --font-size-large: {{ settings.text_base_size | times: 0.0125 }}rem;
-    --font-size-large-mobile: {{ settings.text_base_size | times: 0.01125 }}rem;
-    --heading-highlight-font-size: {{ settings.heading_highlight_base_size }}%;
-    --h1-font-size: {{ settings.heading_base_size | times: 0.03825 }}rem;
-    --h2-font-size: {{ settings.heading_base_size | times: 0.0225 }}rem;
-    --h3-font-size: {{ settings.heading_base_size | times: 0.0135 }}rem;
-    --h4-font-size: {{ settings.heading_base_size | times: 0.012375 }}rem;
-    --h5-font-size: {{ settings.heading_base_size | times: 0.01125 }}rem;
-    --h6-font-size: {{ settings.heading_base_size | times: 0.010125 }}rem;
-    --base-font-size-mobile: {{ settings.text_base_size | times: 0.007875 }}rem;
-    --h1-font-size-mobile: {{ settings.heading_base_size | times: 0.019125 }}rem;
-    --h2-font-size-mobile: {{ settings.heading_base_size | times: 0.0135 }}rem;
-    --h3-font-size-mobile: {{ settings.heading_base_size | times: 0.00945 }}rem;
-    --h4-font-size-mobile: {{ settings.heading_base_size | times: 0.0086625 }}rem;
-    --h5-font-size-mobile: {{ settings.heading_base_size | times: 0.007875 }}rem;
-    --h6-font-size-mobile: {{ settings.heading_base_size | times: 0.0070875 }}rem;
+    --font-size-h1-desktop:calc(max(10, var(--text-size-h1-desktop)) * 1px);
+    --font-size-h1-tablet:calc(max(10, var(--text-size-h1-tablet)) * 1px);
+    --font-size-h1-mobile:calc(max(10, var(--text-size-h1-mobile)) * 1px);
+    --font-size-h2-desktop:calc(max(10, var(--text-size-h2-desktop)) * 1px);
+    --font-size-h2-tablet:calc(max(10, var(--text-size-h2-tablet)) * 1px);
+    --font-size-h2-mobile:calc(max(10, var(--text-size-h2-mobile)) * 1px);
+    --font-size-h3-desktop:calc(max(10, var(--text-size-h3-desktop)) * 1px);
+    --font-size-h3-tablet:calc(max(10, var(--text-size-h3-tablet)) * 1px);
+    --font-size-h3-mobile:calc(max(10, var(--text-size-h3-mobile)) * 1px);
+    --font-size-h4-desktop:calc(max(10, var(--text-size-h4-desktop)) * 1px);
+    --font-size-h4-tablet:calc(max(10, var(--text-size-h4-tablet)) * 1px);
+    --font-size-h4-mobile:calc(max(10, var(--text-size-h4-mobile)) * 1px);
+    --font-size-h5-desktop:calc(max(10, var(--text-size-h5-desktop)) * 1px);
+    --font-size-h5-tablet:calc(max(10, var(--text-size-h5-tablet)) * 1px);
+    --font-size-h5-mobile:calc(max(10, var(--text-size-h5-mobile)) * 1px);
+    --font-size-h6-desktop:calc(max(10, var(--text-size-h6-desktop)) * 1px);
+    --font-size-h6-tablet:calc(max(10, var(--text-size-h6-tablet)) * 1px);
+    --font-size-h6-mobile:calc(max(10, var(--text-size-h6-mobile)) * 1px);
+    --font-size-subheading-desktop:calc(max(10, var(--text-size-subheading-desktop)) * 1px);
+    --font-size-subheading-tablet:calc(max(10, var(--text-size-subheading-tablet)) * 1px);
+    --font-size-subheading-mobile:calc(max(10, var(--text-size-subheading-mobile)) * 1px);
+    --font-size-p3-desktop:calc(max(10, var(--text-size-p3-desktop)) * 1px);
+    --font-size-p3-tablet:calc(max(10, var(--text-size-p3-tablet)) * 1px);
+    --font-size-p3-mobile:calc(max(10, var(--text-size-p3-mobile)) * 1px);
+    --font-size-p2-desktop:calc(max(10, var(--text-size-p2-desktop)) * 1px);
+    --font-size-p2-tablet:calc(max(10, var(--text-size-p2-tablet)) * 1px);
+    --font-size-p2-mobile:calc(max(10, var(--text-size-p2-mobile)) * 1px);
+    --font-size-p1-desktop:calc(max(10, var(--text-size-p1-desktop)) * 1px);
+    --font-size-p1-tablet:calc(max(10, var(--text-size-p1-tablet)) * 1px);
+    --font-size-p1-mobile:calc(max(10, var(--text-size-p1-mobile)) * 1px);
+    --font-size-caption-desktop:calc(max(10, var(--text-size-caption-desktop)) * 1px);
+    --font-size-caption-tablet:calc(max(10, var(--text-size-caption-tablet)) * 1px);
+    --font-size-caption-mobile:calc(max(10, var(--text-size-caption-mobile)) * 1px);
+    --font-size-button-desktop:calc(max(10, var(--text-size-button-desktop)) * 1px);
+    --font-size-button-tablet:calc(max(10, var(--text-size-button-tablet)) * 1px);
+    --font-size-button-mobile:calc(max(10, var(--text-size-button-mobile)) * 1px);
+    --font-size-menu-desktop:calc(max(10, var(--text-size-menu-desktop)) * 1px);
+    --font-size-menu-tablet:calc(max(10, var(--text-size-menu-tablet)) * 1px);
+    --font-size-menu-mobile:calc(max(10, var(--text-size-menu-mobile)) * 1px);
+    --font-size-product-name-desktop:calc(max(10, var(--text-size-product-name-desktop)) * 1px);
+    --font-size-product-name-tablet:calc(max(10, var(--text-size-product-name-tablet)) * 1px);
+    --font-size-product-name-mobile:calc(max(10, var(--text-size-product-name-mobile)) * 1px);
+    --font-size-product-price-desktop:calc(max(10, var(--text-size-product-price-desktop)) * 1px);
+    --font-size-product-price-tablet:calc(max(10, var(--text-size-product-price-tablet)) * 1px);
+    --font-size-product-price-mobile:calc(max(10, var(--text-size-product-price-mobile)) * 1px);
+    --font-size-product-price-compare-desktop:calc(max(10, var(--text-size-product-price-compare-desktop)) * 1px);
+    --font-size-product-price-compare-tablet:calc(max(10, var(--text-size-product-price-compare-tablet)) * 1px);
+    --font-size-product-price-compare-mobile:calc(max(10, var(--text-size-product-price-compare-mobile)) * 1px);
+    --font-size-product-vendor-desktop:calc(max(10, var(--text-size-product-vendor-desktop)) * 1px);
+    --font-size-product-vendor-tablet:calc(max(10, var(--text-size-product-vendor-tablet)) * 1px);
+    --font-size-product-vendor-mobile:calc(max(10, var(--text-size-product-vendor-mobile)) * 1px);
+    --font-size-caption-down-desktop:calc(max(10, var(--text-size-caption-desktop) - 2) * 1px);
+    --font-size-caption-down-tablet:calc(max(10, var(--text-size-caption-tablet) - 2) * 1px);
+    --font-size-caption-down-mobile:calc(max(10, var(--text-size-caption-mobile) - 2) * 1px);
+    --heading-highlight-size-rate: {{ settings.heading_highlight_size_rate }}%;
     --body-letter-spacing: {{ settings.text_letter_spacing | times: 0.01 }}em;
     --heading-letter-spacing: {{ settings.heading_letter_spacing | times: 0.01 }}em;
     --heading-highlight-letter-spacing: {{ settings.heading_highlight_letter_spacing | times: 0.01 }}em;
     --menu-letter-spacing: {{ settings.menu_letter_spacing | times: 0.01 }}em;
     --button-letter-spacing: {{ settings.button_letter_spacing | times: 0.01 }}em;
-    --rating-star-size: {{ settings.text_base_size | times: 0.007 }}rem;
     --border-radius: {{ border_radius }};
     --edges-radius: {{ edges_radius }};
     --page-width: {{ settings.page_width }}px;
-    --width-countdown: {{ settings.text_base_size | times: 0.07875 }}rem;
+    --width-countdown: calc(var(--font-size-p1) * 9);
     --font-menu: {{ settings.type_menu_font.family }}, {{ settings.type_menu_font.fallback_families }};
     --font-menu-weight: {{ settings.type_menu_font.weight }};
     --font-menu-style: {{ settings.type_menu_font.style }};
@@ -89,6 +120,13 @@
     --color-secondary-button: {{ scheme.settings.secondary_button_color }};
     --color-secondary-button-text: {{ scheme.settings.secondary_button_text_color }};
     --color-link: {{ scheme.settings.text_link_color }};
+
+    {% if settings.buttons_animation == 'fill_up' %}
+      --button-width: 120%;
+      --button-height: 100%;
+      --button-transform: rotate3d(0,0,1,10deg) translate3d(-1.2em,110%,0);
+      --button-transform-origin: 0% 100%;
+    {% endif %}
   }
   .dark,
   .dark *:before {
@@ -135,4 +173,134 @@
   .padding-scrollbar, .padding-scrollbar-header {
     padding-right: {{ settings.scrollbar_width }};
   }
+  {% if settings.buttons_color_mobile == "hover" %}
+    [type="button"],
+    .button {
+      color: var(--color-primary-button-hover-text);
+    }
+    button.button-solid,
+    .button.button-solid {
+      border: none;
+      background-color: rgba(var(--color-primary-button-hover));
+    }
+    button.button-disable-effect,
+    .button.button-disable-effect {
+      color: var(--color-primary-button-hover-text);
+      background-color: var(--color-primary-button-hover);
+    }
+    .button-action {
+      border: none;
+      color: var(--color-primary-button-hover-text);
+      background-color: var(--color-primary-button-hover);
+    }
+  {% else %}
+    [type="button"],
+    .button {
+      color: var(--color-primary-button-text);
+    }
+    button.button-solid,
+    .button.button-solid {
+      border: none;
+      background-color: var(--color-primary-button);
+    }
+    button.button-disable-effect,
+    .button.button-disable-effect {
+      color: var(--color-primary-button-text);
+      background-color: var(--color-primary-button);
+    }
+    .button-action {
+      border: none;
+      color: var(--color-primary-button-text);
+      background-color: var(--color-primary-button);
+    }
+  {% endif %}
+  {% if settings.buttons_animation == 'sliced' %}
+    .button.button-outline:not(.not-icon),
+    .button.button-solid:not(.not-icon) {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    .button-solid .button-icon,
+    .button-solid .button-text {
+      transition-timing-function: cubic-bezier(0,.71,.4,1);
+    }
+    .button-solid .button-icon {
+      transition: opacity .25s,transform .5s;
+    }
+    .button-solid .button-text {
+      transition: transform .5s;
+      transform: translateX(10px);
+    }
+    button.button-solid.disable-action-btn-animation:disabled:hover .button-text, .button.button-solid.disable-btn-animation:hover .button-text {
+      transform: translateX(10px);
+    }
+    .button-solid:hover .button-text {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+    .button-solid:hover .button-icon {
+      opacity: 1;
+      transform: translateX(5px);
+    }
+  {% endif %}
+  {% if settings.buttons_animation == 'underline' %}
+    .button-solid .button-text {
+      position: relative;
+      display: block;
+    }
+    .button-solid .button-text::after {
+      content: "";
+      pointer-events: none;
+      bottom: 1px;
+      left: 50%;
+      position: absolute;
+      width: 0%;
+      height: 1px;
+      background-color: var(--color-primary-button-text);
+      transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+      transition-duration: 400ms;
+      transition-property: width, left;
+    }
+    .button-solid:hover .button-text::after {
+      {% if settings.buttons_color_mobile == "hover" %}
+        background-color: var(--color-primary-button-hover-text);
+      {% else %}
+        background-color: var(--color-primary-button-text);
+      {% endif %}
+      width: 100%;
+      left: 0%;
+    }
+  {% endif %}
+  {% if settings.buttons_animation == 'fill_up' %}
+    button.button-solid:before,
+    .button.button-solid:before {
+      content: "";
+      z-index: -1;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: var(--button-width);
+      height: var(--button-height);
+      background-color: var(--colors-button-hover);
+      backface-visibility: hidden;
+      will-change: transform;
+      transform: var(--button-transform);
+      transform-origin: var(--button-transform-origin);
+      transition: transform 0.5s ease;
+    }
+    button.button-solid:hover:before,
+    .button.button-solid:hover:before {
+      transform: rotate3d(0,0,1,0) translateZ(0);
+    }
+  {% endif %}
+  {% if settings.buttons_animation == 'underline' %}
+    .button-solid:hover .button-text::after {
+      background-color: var(--color-primary-button-hover-text);
+    }
+  {% endif %}
 {% endstyle %}

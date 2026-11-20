@@ -2,7 +2,7 @@
 <html class="no-js {% if settings.theme_mode_default == "dark" and settings.theme_mode_enabled %} dark{% endif %}" lang="{{ request.locale.iso_code }}">
   <head>
     {% render 'meta-tags' %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    {{ 'tailwind-output.css' | asset_url | stylesheet_tag: preload: true }}
     {% # Inlined CSS Variables %}
     {% liquid
       render 'css-variables' 
@@ -32,7 +32,7 @@
   </head>
 
   <body x-data 
-    class="relative scrollbar-body overflow-x-hidden"
+    class="relative scrollbar-body overflow-x-hidden body-text-base-size"
     :class="$store.xOverlay.stopScroll && 'overflow-hidden padding-scrollbar'"
   >
     {%- if settings.page_transition -%}
@@ -45,7 +45,7 @@
           }, 1000); 
         });
       </script>
-      <div id="x-page-transition" class="transition-all ease-in-out duration-1000 opacity-100 fixed top-0 left-0 w-full h-full bg-black z-[9999]"></div>
+      <div id="x-page-transition" class="transition-all ease-in-out duration-1000 opacity-100 fixed top-0 left-0 w-full h-full bg-black z-9999"></div>
     {%- endif -%}
     {% sections 'header-group' %}
 
@@ -58,6 +58,7 @@
         cart_add_url: '{{ routes.cart_add_url }}'
       };
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js" defer></script>
     {% if settings.theme_mode_enabled %}
       <script src="{{ 'dark-mode.js' | asset_url }}" defer></script>
     {% endif %}

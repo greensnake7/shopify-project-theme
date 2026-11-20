@@ -1,0 +1,344 @@
+{%- liquid
+  assign heading_custom = settings.heading_custom_sizes
+  assign heading_level = settings.heading_size_level
+
+  assign body_custom = settings.body_custom_sizes
+  assign body_level = settings.body_size_level
+
+  assign sub_custom = settings.subheading_custom_sizes
+  assign sub_level = settings.subheading_size_level
+
+  assign menu_level = settings.menu_size_level
+  assign name_level = settings.product_card_name_size
+  assign price_level = settings.product_card_price_size
+-%}
+{%- style -%}
+  :root {
+    // Heading font size
+    {%- if heading_custom -%}
+      {%- liquid
+        assign desktop_size = settings.heading_h1_px
+        assign mobile_size = desktop_size | times: 0.642858 | round
+      -%}
+      --text-size-h1-desktop:{{ desktop_size }};
+      --text-size-h1-tablet:{{ desktop_size | plus: mobile_size | divided_by: 2.0 | round }};
+      --text-size-h1-mobile:{{ mobile_size }};
+      {%- liquid
+        assign desktop_size = settings.heading_h2_px
+        assign mobile_size = desktop_size | times: 0.722223 | round
+      -%}
+      --text-size-h2-desktop:{{ desktop_size }};
+      --text-size-h2-tablet:{{ desktop_size | plus: mobile_size | divided_by: 2.0 | round }};
+      --text-size-h2-mobile:{{ mobile_size }};
+      {%- liquid
+        assign desktop_size = settings.heading_h3_px
+        assign mobile_size = desktop_size | times: 0.733334 | round
+      -%}
+      --text-size-h3-desktop:{{ desktop_size }};
+      --text-size-h3-tablet:{{ desktop_size | plus: mobile_size | divided_by: 2.0 | round }};
+      --text-size-h3-mobile:{{ mobile_size }};
+      {%- liquid
+        assign desktop_size = settings.heading_h4_px
+        assign mobile_size = desktop_size | times: 0.833334 | round
+      -%}
+      --text-size-h4-desktop:{{ desktop_size }};
+      --text-size-h4-tablet:{{ desktop_size | plus: mobile_size | divided_by: 2.0 | round }};
+      --text-size-h4-mobile:{{ mobile_size }};
+      {%- liquid
+        assign desktop_size = settings.heading_h5_px
+        assign mobile_size = desktop_size | times: 0.9 | round
+      -%}
+      --text-size-h5-desktop:{{ desktop_size }};
+      --text-size-h5-tablet:{{ desktop_size | plus: mobile_size | divided_by: 2.0 | round }};
+      --text-size-h5-mobile:{{ mobile_size }};
+      {%- liquid
+        assign desktop_size = settings.heading_h6_px
+        assign mobile_size = desktop_size | times: 0.9375 | round
+      -%}
+      --text-size-h6-desktop:{{ desktop_size }};
+      --text-size-h6-tablet:{{ desktop_size | plus: mobile_size | divided_by: 2.0 | round }};
+      --text-size-h6-mobile:{{ mobile_size }};
+    {%- else -%}
+      {%- case heading_level -%}
+        {%- when 's' -%}
+          --text-size-h1-desktop:48;
+          --text-size-h1-tablet:40;
+          --text-size-h1-mobile:32;
+          --text-size-h2-desktop:30;
+          --text-size-h2-tablet:26;
+          --text-size-h2-mobile:22;
+          --text-size-h3-desktop:26;
+          --text-size-h3-tablet:23;
+          --text-size-h3-mobile:20;
+          --text-size-h4-desktop:22;
+          --text-size-h4-tablet:20;
+          --text-size-h4-mobile:18;
+          --text-size-h5-desktop:18;
+          --text-size-h5-tablet:17;
+          --text-size-h5-mobile:16;
+          --text-size-h6-desktop:14;
+          --text-size-h6-tablet:14;
+          --text-size-h6-mobile:14;
+        {%- when 'm' -%}
+          --text-size-h1-desktop:56;
+          --text-size-h1-tablet:46;
+          --text-size-h1-mobile:36;
+          --text-size-h2-desktop:36;
+          --text-size-h2-tablet:32;
+          --text-size-h2-mobile:26;
+          --text-size-h3-desktop:30;
+          --text-size-h3-tablet:26;
+          --text-size-h3-mobile:22;
+          --text-size-h4-desktop:24;
+          --text-size-h4-tablet:22;
+          --text-size-h4-mobile:20;
+          --text-size-h5-desktop:20;
+          --text-size-h5-tablet:19;
+          --text-size-h5-mobile:18;
+          --text-size-h6-desktop:16;
+          --text-size-h6-tablet:16;
+          --text-size-h6-mobile:15;
+        {%- when 'l' -%}
+          --text-size-h1-desktop:64;
+          --text-size-h1-tablet:52;
+          --text-size-h1-mobile:40;
+          --text-size-h2-desktop:40;
+          --text-size-h2-tablet:36;
+          --text-size-h2-mobile:30;
+          --text-size-h3-desktop:32;
+          --text-size-h3-tablet:28;
+          --text-size-h3-mobile:24;
+          --text-size-h4-desktop:27;
+          --text-size-h4-tablet:24;
+          --text-size-h4-mobile:22;
+          --text-size-h5-desktop:22;
+          --text-size-h5-tablet:21;
+          --text-size-h5-mobile:20;
+          --text-size-h6-desktop:18;
+          --text-size-h6-tablet:18;
+          --text-size-h6-mobile:18;
+      {%- endcase -%}
+    {%- endif -%}
+    // Subheading font size
+    {%- if sub_custom -%}
+      {%- liquid
+        assign sub_size = settings.subheading_px
+        assign sub_size_tablet = sub_size | minus: 2
+        assign sub_size_mobile = sub_size_tablet
+      -%}
+      --text-size-subheading-desktop:{{ sub_size }};
+      --text-size-subheading-tablet:{{ sub_size_tablet }};
+      --text-size-subheading-mobile:{{ sub_size_mobile }};
+    {%- else -%}
+      {%- case sub_level -%}
+        {%- when 's' -%}
+          --text-size-subheading-desktop:14;
+          --text-size-subheading-tablet:12;
+          --text-size-subheading-mobile:12;
+        {%- when 'm' -%}
+          --text-size-subheading-desktop:16;
+          --text-size-subheading-tablet:14;
+          --text-size-subheading-mobile:14;
+        {%- when 'l' -%}
+          --text-size-subheading-desktop:18;
+          --text-size-subheading-tablet:16;
+          --text-size-subheading-mobile:16;
+      {%- endcase -%}
+    {%- endif -%}
+    // Body font size
+    {%- if body_custom -%}
+      {%- liquid
+        assign body_size = settings.body_px
+        assign body_mobile_size = body_size | minus: 1
+      -%}
+      --text-size-p3-desktop:{{ body_size | plus: 6 }};
+      --text-size-p3-tablet:{{ body_size | plus: 5 }};
+      --text-size-p3-mobile:{{ body_mobile_size | plus: 5 }};
+      --text-size-p2-desktop:{{ body_size | plus: 4 }};
+      --text-size-p2-tablet:{{ body_size | plus: 3 }};
+      --text-size-p2-mobile:{{ body_mobile_size | plus: 3 }};
+      --text-size-p1-desktop:{{ body_size }};
+      --text-size-p1-tablet:{{ body_size }};
+      --text-size-p1-mobile:{{ body_mobile_size }};
+      --text-size-caption-desktop:{{ body_size | minus: 2 }};
+      --text-size-caption-tablet:{{ body_size | minus: 2 }};
+      --text-size-caption-mobile:{{ body_mobile_size | minus: 2 }};
+      --text-size-button-desktop:{{ body_size }};
+      --text-size-button-tablet:{{ body_size }};
+      --text-size-button-mobile:{{ body_mobile_size }};
+    {%- else -%}
+      {%- case body_level -%}
+        {%- when 's' -%}
+          --text-size-p3-desktop:20;
+          --text-size-p3-tablet:19;
+          --text-size-p3-mobile:18;
+          --text-size-p2-desktop:18;
+          --text-size-p2-tablet:17;
+          --text-size-p2-mobile:16;
+          --text-size-p1-desktop:14;
+          --text-size-p1-tablet:14;
+          --text-size-p1-mobile:13;
+          --text-size-caption-desktop:12;
+          --text-size-caption-tablet:12;
+          --text-size-caption-mobile:11;
+          --text-size-button-desktop:14;
+          --text-size-button-tablet:14;
+          --text-size-button-mobile:14;
+        {%- when 'm' -%}
+          --text-size-p3-desktop:22;
+          --text-size-p3-tablet:21;
+          --text-size-p3-mobile:20;
+          --text-size-p2-desktop:20;
+          --text-size-p2-tablet:19;
+          --text-size-p2-mobile:18;
+          --text-size-p1-desktop:16;
+          --text-size-p1-tablet:16;
+          --text-size-p1-mobile:15;
+          --text-size-caption-desktop:14;
+          --text-size-caption-tablet:14;
+          --text-size-caption-mobile:13;
+          --text-size-button-desktop:16;
+          --text-size-button-tablet:16;
+          --text-size-button-mobile:15;
+        {%- when 'l' -%}
+          --text-size-p3-desktop:24;
+          --text-size-p3-tablet:23;
+          --text-size-p3-mobile:22;
+          --text-size-p2-desktop:22;
+          --text-size-p2-tablet:21;
+          --text-size-p2-mobile:20;
+          --text-size-p1-desktop:18;
+          --text-size-p1-tablet:18;
+          --text-size-p1-mobile:17;
+          --text-size-caption-desktop:16;
+          --text-size-caption-tablet:16;
+          --text-size-caption-mobile:15;
+          --text-size-button-desktop:18;
+          --text-size-button-tablet:18;
+          --text-size-button-mobile:18;
+      {%- endcase -%}
+    {%- endif -%}
+    // Menu font size
+    {%- case menu_level -%}
+      {%- when 's' -%}
+        --text-size-menu-desktop:14;
+        --text-size-menu-tablet:14;
+        --text-size-menu-mobile:14;
+      {%- when 'm' -%}
+        --text-size-menu-desktop:16;
+        --text-size-menu-tablet:16;
+        --text-size-menu-mobile:16;
+      {%- when 'l' -%}
+        --text-size-menu-desktop:18;
+        --text-size-menu-tablet:18;
+        --text-size-menu-mobile:18;
+    {%- endcase -%}
+    // product
+    {%- if name_level == 'body' -%}
+      --text-size-product-name-desktop:var(--text-size-p1-desktop);
+      --text-size-product-name-tablet:var(--text-size-p1-tablet);
+      --text-size-product-name-mobile:var(--text-size-p1-mobile);
+    {%- else -%}
+      {%- case name_level -%}
+        {%- when 's' -%}
+          --text-size-product-name-desktop:14;
+          --text-size-product-name-tablet:14;
+          --text-size-product-name-mobile:13;
+        {%- when 'm' -%}
+          --text-size-product-name-desktop:16;
+          --text-size-product-name-tablet:16;
+          --text-size-product-name-mobile:15;
+        {%- when 'l' -%}
+          --text-size-product-name-desktop:18;
+          --text-size-product-name-tablet:18;
+          --text-size-product-name-mobile:17;
+      {%- endcase -%}
+    {%- endif -%}
+    {%- if name_level == 'body' and body_custom -%}
+      --text-size-product-vendor-desktop:var(--text-size-caption-desktop);
+      --text-size-product-vendor-tablet:var(--text-size-caption-tablet);
+      --text-size-product-vendor-mobile:var(--text-size-caption-mobile);
+    {%- else -%}
+      {%- liquid
+        assign vendor_level = name_level
+        assign vendor_level_mobile = name_level_mobile
+        if name_level == 'body'
+          assign vendor_level = body_level
+          assign vendor_level_mobile = body_level_mobile
+        endif
+      -%}
+      {%- case vendor_level -%}
+        {%- when 's' -%}
+          --text-size-product-vendor-desktop:12;
+          --text-size-product-vendor-tablet:12;
+        {%- when 'm' -%}
+          --text-size-product-vendor-desktop:14;
+          --text-size-product-vendor-tablet:14;
+        {%- when 'l' -%}
+          --text-size-product-vendor-desktop:16;
+          --text-size-product-vendor-tablet:16;
+      {%- endcase -%}
+      {%- case vendor_level_mobile -%}
+        {%- when 's' -%}
+          --text-size-product-vendor-mobile:11;
+        {%- when 'm' -%}
+          --text-size-product-vendor-mobile:13;
+        {%- when 'l' -%}
+          --text-size-product-vendor-mobile:15;
+      {%- endcase -%}
+    {%- endif -%}
+    {%- if price_level == 'body' -%}
+      --text-size-product-price-desktop:var(--text-size-p1-desktop);
+      --text-size-product-price-tablet:var(--text-size-p1-tablet);
+      --text-size-product-price-mobile:var(--text-size-p1-mobile);
+      --text-size-product-price-compare-desktop:var(--text-size-caption-desktop);
+      --text-size-product-price-compare-tablet:var(--text-size-caption-tablet);
+      --text-size-product-price-compare-mobile:var(--text-size-caption-mobile);
+    {%- else -%}
+      {%- case price_level -%}
+        {%- when 's' -%}
+          --text-size-product-price-desktop:14;
+          --text-size-product-price-tablet:14;
+          --text-size-product-price-mobile:13;
+          --text-size-product-price-compare-desktop:12;
+          --text-size-product-price-compare-tablet:12;
+          --text-size-product-price-compare-mobile:11;
+        {%- when 'm' -%}
+          --text-size-product-price-desktop:16;
+          --text-size-product-price-tablet:16;
+          --text-size-product-price-mobile:15;
+          --text-size-product-price-compare-desktop:14;
+          --text-size-product-price-compare-tablet:14;
+          --text-size-product-price-compare-mobile:13;
+        {%- when 'l' -%}
+          --text-size-product-price-desktop:18;
+          --text-size-product-price-tablet:18;
+          --text-size-product-price-mobile:17;
+          --text-size-product-price-compare-desktop:16;
+          --text-size-product-price-compare-tablet:16;
+          --text-size-product-price-compare-mobile:15;
+      {%- endcase -%}
+      {%- if price_level_mobile != price_level -%}
+        {%- case price_level_mobile -%}
+          {%- when 's' -%}
+            --text-size-product-price-mobile:13;
+            --text-size-product-price-compare-mobile:11;
+          {%- when 'm' -%}
+            --text-size-product-price-mobile:15;
+            --text-size-product-price-compare-mobile:13;
+          {%- when 'l' -%}
+            --text-size-product-price-mobile:17;
+            --text-size-product-price-compare-mobile:15;
+        {%- endcase -%}
+      {%- endif -%}
+    {%- endif -%}
+    {%- if settings.heading_text_tranform == 'uppercase' -%}
+      --heading-highlight-fit:cap-height from-font;
+    {%- endif -%}
+    --font-subheading-family:var(--font-{{ settings.subheading_font }}-family);
+    --font-subheading-style:var(--font-{{ settings.subheading_font }}-style);
+    --font-subheading-weight:var(--font-{{ settings.subheading_font }}-weight);
+    --subheading-letter-spacing:{{ settings.subheading_letter_spacing | times: 0.01 }}em;
+    --subheading-text-transform:{{ settings.subheading_text_transform }};
+  }
+{%- endstyle -%}

@@ -32,7 +32,7 @@
     assign price_element_id = 'price-' | append: section.id | append: '-' | append: product.id
   endif
 -%}
-<div class="{{ container }} price leading-none{% if enable_price_range %} flex{% endif %} {{ price_class }}">
+<div class="x-card-price {{ container }} price leading-none{% if enable_price_range %} flex{% endif %} {{ price_class }}">
   <div class="target-price hidden">{{ price }}</div>
   <div class="target-compare-at-price hidden">{{ compare_at_price }}</div>
   {% if show_price_range %}
@@ -41,7 +41,7 @@
         {% capture price_detail_button %}
           <div
             id="price-range-{{ priceID }}"
-            class="price-range price leading-none flex-wrap pl-2 border-l border-solid inline-flex items-center gap-[3px] ml-1"
+            class="x-card-price price-range price leading-none flex-wrap pl-2 border-l border-solid inline-flex items-center gap-[3px] ml-1"
             aria-hidden="true"
             tabindex="-1"
             style="text-align: unset;"

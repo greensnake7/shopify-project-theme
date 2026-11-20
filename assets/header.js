@@ -17,7 +17,6 @@ if (!window.XTheme.loadedScript.has('header.js')) {
         ignoreScroll: false,
         scrollTimeout: null,
         reset() {
-          console.log('reset');
           this.headerObserver.disconnect();
           if (document.getElementById('x-header-sentinel-top')) document.getElementById('x-header-sentinel-top').remove();
           if (document.getElementById('x-header-sentinel-bottom')) document.getElementById('x-header-sentinel-bottom').remove();
@@ -58,7 +57,6 @@ if (!window.XTheme.loadedScript.has('header.js')) {
 
             this.headerObserver = new IntersectionObserver((entries) => {
               entries.forEach(entry => {
-                console.log(entry.target);
                 if (entry.target === header) {
                   if (!this.initialized) {
                     const rect = entry.boundingClientRect;
@@ -71,7 +69,6 @@ if (!window.XTheme.loadedScript.has('header.js')) {
                   }
                 } else if (entry.target === sentinelTop) {
                   this.passTop = !entry.isIntersecting;
-                  console.log('passTop' + this.passTop);
                 } else {
                   this.passBottom = !entry.isIntersecting;
                   if (!this.passBottom && this.ignoreScroll) {
@@ -79,7 +76,6 @@ if (!window.XTheme.loadedScript.has('header.js')) {
                     clearTimeout(this.scrollTimeout);
                     this.scrollTimeout = null;
                   }
-                  console.log('passBot' + this.passBottom);
                 }
               })
             })
@@ -93,7 +89,6 @@ if (!window.XTheme.loadedScript.has('header.js')) {
           requestAnimationFrame(() => {
             header.style.setProperty('--header-sticky-transform', `-${this.stickyOffsetHeight}px`);
             if (this.passBottom) {
-              console.log('pass');
               if (stickyType === 'scroll-up') {
                 headerContainer.classList.add('is-sticky', 'is-scrolled');
                 this.isSticky = true;
